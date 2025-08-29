@@ -618,8 +618,8 @@ else {
 
 
                                     <!-- <tr>
-		<td colspan="5" align="right">
-<input type="checkbox" ng-model="addvat" ng-change="Addvatcontrol()">
+		                                <td colspan="5" align="right">
+                                        <input type="checkbox" ng-model="addvat" ng-change="Addvatcontrol()">
 		<?=$lang_vat?></td>
 
 		</tr>  -->
@@ -739,6 +739,25 @@ if($_SESSION['owner_vat_status']=='2'){
                                     </td>
                                 </tr>
 
+
+                                <tr>
+                                    <td align="center">
+                                        <img ng-src="<?=$base_url?>/{{owner_qr}}" class="qr-img" width="300"
+                                            height="300" />
+                                    </td>
+                                </tr>
+
+                                <tr style="font-size: 20px;color: #b53e07ff;">
+                                    <td align="center">
+                                        ອັດຕາແລກປ່ຽນ
+                                    </td>
+                                </tr>
+
+                                <tr ng-repeat="rate in exchangerates" style="font-size: 20px;color: #056b05ff;">
+                                    <td align="center">{{ rate.title_name }} : {{ rate.rate }}</td>
+                                </tr>
+
+
                                 </tr>
 
                             </tbody>
@@ -786,9 +805,6 @@ if($_SESSION['owner_vat_status']=='2'){
 
                                     <div class="modal-body">
 
-
-                                        <input type="checkbox" ng-model="showproductcheckbill"
-                                            class="ng-valid ng-dirty ng-valid-parse ng-touched">ສະແດງລາຍການສິນຄ້າ
                                         <hr>
 
                                         <div id="printmodal4">
@@ -804,15 +820,8 @@ if($_SESSION['owner_vat_status']=='2'){
 
                                                 <br>
 
-                                                <span style="font-weight: bold;font-size:30px;font-weight: bold;">QR
-                                                </span>
-
-
                                             </center>
-
-
-                                            <!-- ngIf: showproductcheckbill -->
-                                            <div ng-if="showproductcheckbill">
+                                            <div>
                                                 <hr>
 
 
@@ -866,62 +875,40 @@ if($_SESSION['owner_vat_status']=='2'){
 
                                                     </tr>
 
+
+
                                                 </table>
+
 
 
                                                 <!-- end ngRepeat: x in listsale -->
 
                                                 <hr>
-
-                                            </div><!-- end ngIf: showproductcheckbill -->
-
-                                            <!-- ngIf: ppid!='' -->
-                                            <!-- <center ng-if="ppid!=''" class="ng-scope">
-                                                <img width="50%"
-                                                    src="<?php echo $base_url;?>/bcel/upload/myqr2.jpg?ts=1756139416">
-                                                <br>
-                                                ເລກບັນຊີ: <b class="ng-binding">{{ppinfo.ppid}}</b>
-                                                <br>
-                                                ຊື່ບັນຊີ: <b class="ng-binding">{{ppinfo.ppname}}</b>
-                                                <br>
-                                       
-                                                
-                                                <h3 ng-if="discount_percent==0"
-                                                    style="font-weight: bold;font-size: 70px;color: red;text-align: center;vertical-align:middle;">
-
-                                                    {{Sumsaleprice() + (Sumsaleprice() * vatnumber/100) - discount_last | number }}
-                                                </h3>
-                                                <h3 ng-if="discount_percent==1"
-                                                    style="font-weight: bold;font-size: 70px;color: blue;text-align: center;vertical-align:middle;">
-
-                                                    {{Sumsaleprice() + (Sumsaleprice() * vatnumber/100) - ((Sumsaleprice() + (Sumsaleprice() * vatnumber/100))*(discount_last_percent/100)) | number }}
-                                                </h3>
-
-                                            </center> -->
-                                            <!-- end ngIf: ppid!='' -->
-                                            <center ng-if="ppid!=''" class="ng-scope">
+                                            </div>
 
 
-                                                <img src="<?=$base_url?>/<?=$_SESSION['owner_qr']?>" class="qr-img">
-                                                <br>
+                                            <center>
+                                                <div>
+                                                    <img ng-src="<?=$base_url?>/{{owner_qr}}" class="qr-img" width="300"
+                                                        height="300">
+                                                    <h3 ng-if="discount_percent==0"
+                                                        style="font-weight:bold;font-size:70px;color:red;text-align:center;">
+                                                        {{ Sumsaleprice() + (Sumsaleprice() * vatnumber/100) - discount_last | number }}
+                                                    </h3>
+                                                    <h3 ng-if="discount_percent==1"
+                                                        style="font-weight:bold;font-size:70px;color:blue;text-align:center;">
+                                                        {{ Sumsaleprice() + (Sumsaleprice() * vatnumber/100) - ((Sumsaleprice() + (Sumsaleprice() * vatnumber/100))*(discount_last_percent/100)) | number }}
+                                                    </h3>
+                                                </div>
 
-                                                <br>
+                                                <!-- Fallback if no QR -->
+                                                <!-- <div ng-if="owner_qr == ''">
 
-                                                <h3 ng-if="discount_percent==0"
-                                                    style="font-weight: bold;font-size: 70px;color: red;text-align: center;vertical-align:middle;">
-
-                                                    {{Sumsaleprice() + (Sumsaleprice() * vatnumber/100) - discount_last | number }}
-                                                </h3>
-                                                <h3 ng-if="discount_percent==1"
-                                                    style="font-weight: bold;font-size: 70px;color: blue;text-align: center;vertical-align:middle;">
-
-                                                    {{Sumsaleprice() + (Sumsaleprice() * vatnumber/100) - ((Sumsaleprice() + (Sumsaleprice() * vatnumber/100))*(discount_last_percent/100)) | number }}
-                                                </h3>
-
+                                                    <p style="color:gray;font-size:20px;margin-top:10px;"></p>
+                                                </div> -->
                                             </center>
+
                                             <!-- end ngIf: ppid!='' -->
-
-
 
                                         </div>
 
@@ -938,6 +925,7 @@ if($_SESSION['owner_vat_status']=='2'){
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- add new for prom pay -->
 
@@ -8068,31 +8056,61 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
 
                                     // add new for show promp pay ------------------------
                                     $scope.Checkbill = function() {
-                                        // make sure PromptPay info is loaded (if not already)
-                                        $scope.isModal = true;
-                                        if (!$scope.ppid || !$scope.ppname) {
-                                            $http.get('<?php echo $base_url;?>/salesetting/ppsetting/Get')
+                                        // $scope.isModal = true;
+
+                                        if (!$scope.owner_qr) {
+                                            $http.get('<?=$base_url?>/salesetting/ppsetting/Getqr')
                                                 .then(function(response) {
-                                                    if (response.data.list.length > 0) {
-                                                        $scope.ppid = response.data.list[0].ppid;
-                                                        $scope.ppname = response.data.list[0].ppname;
-                                                    }
+                                                        console.log("QR Response:", response
+                                                            .data); // Debug here
+                                                        $scope.owner_qr = response
+                                                            .data.owner_qr;
 
-
-                                                    // optional: also store in an object for modal
-                                                    $scope.ppinfo = {
-                                                        ppid: $scope.ppid,
-                                                        ppname: $scope.ppname
-                                                    };
-                                                    // after data loaded, show modal
-                                                    $('#Checkbillmodal').modal('show');
-                                                });
+                                                        $('#Checkbillmodal').modal('show');
+                                                    },
+                                                    function(error) {
+                                                        console.error("Error fetching QR:", error);
+                                                        $scope.owner_qr = '';
+                                                        $('#Checkbillmodal').modal('show');
+                                                    });
                                         } else {
-                                            // if already loaded, just show modal
                                             $('#Checkbillmodal').modal('show');
                                         }
                                     };
+                                    // Controller loads
+                                    $scope.owner_qr = ''; // initialize
+                                    $scope.qr_loadsale = function() {
+                                        $http.get('<?=$base_url?>/salesetting/ppsetting/Getqr_loadsale')
+                                            .then(function(response) {
+                                                console.log("QR Response:", response.data);
+                                                $scope.owner_qr = response.data.owner_qr || '';
+                                            }, function(error) {
+                                                console.error("Error fetching QR:", error);
+                                                $scope.owner_qr = '';
+                                            });
+                                    };
+                                    // Call it immediately on controller load
+                                    $scope.qr_loadsale();
 
+
+                                    // Initialize variable to hold exchange rate list
+                                    $scope.exchangerates = [];
+
+                                    // Function to fetch exchange rate
+                                    $scope.loadExchangerate = function() {
+                                        $http.get('<?=$base_url?>/salesetting/exchangerate/Get')
+                                            .then(function(response) {
+                                                console.log("Exchange Rate Response:", response.data);
+                                                // Assuming response.data.list contains the array of exchange rates
+                                                $scope.exchangerates = response.data.list || [];
+                                            }, function(error) {
+                                                console.error("Error fetching exchange rate:", error);
+                                                $scope.exchangerates = [];
+                                            });
+                                    };
+
+                                    // Call it immediately on controller load
+                                    $scope.loadExchangerate();
                                     // add new for show promp pay ------------------------
 
 

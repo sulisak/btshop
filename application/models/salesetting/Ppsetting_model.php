@@ -29,5 +29,37 @@ return $encode_data;
 
         }
 
+public function Getqr()
+{
+    ob_clean(); // clear any previous output
+
+    $query = $this->db->query('SELECT owner_qr FROM owner LIMIT 1');
+    $row = $query->row();
+
+    $result = $row ? ['owner_qr' => $row->owner_qr] : ['owner_qr' => ''];
+
+    // Force single clean JSON output
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit; // prevent further output like {"list":null}
+}
+
+
+ public function Getqr_loadsale() {
+        ob_clean();
+        $query = $this->db->query('SELECT owner_qr FROM owner LIMIT 1');
+        $row = $query->row();
+        $result = $row ? ['owner_qr' => $row->owner_qr] : ['owner_qr' => ''];
+        header('Content-Type: application/json');
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+
+
+
+
+
+
 
     }

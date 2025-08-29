@@ -61,6 +61,42 @@ public function Get()
     echo json_encode(['list' => $decoded], JSON_UNESCAPED_UNICODE);
 
 }
+public function Getqr()
+{
+    $list = $this->ppsetting_model->Getqr();
+    // echo json_encode(['list' => json_decode($list)]);
+
+
+    // log raw data
+    log_message('debug', 'Ppsetting::Get() raw list = ' . print_r($list, true));
+
+    // try decoding if it's still JSON string
+    $decoded = json_decode($list);
+
+    // log after decode
+    log_message('debug', 'Ppsetting::Get() decoded = ' . print_r($decoded, true));
+
+    echo json_encode(['list' => $decoded], JSON_UNESCAPED_UNICODE);
+
+}
+public function Getqr_loadsale()
+{
+    $list = $this->ppsetting_model->Getqr_loadsale();
+    // echo json_encode(['list' => json_decode($list)]);
+
+
+    // log raw data
+    log_message('debug', 'Ppsetting::Get() raw list = ' . print_r($list, true));
+
+    // try decoding if it's still JSON string
+    $decoded = json_decode($list);
+
+    // log after decode
+    log_message('debug', 'Ppsetting::Get() decoded = ' . print_r($decoded, true));
+
+    echo json_encode(['list' => $decoded], JSON_UNESCAPED_UNICODE);
+
+}
 
 public function Update()
 {

@@ -24,10 +24,10 @@ a {
                         href="<?php echo $base_url; ?>/salesetting/pay_type"><span class="glyphicon glyphicon-cog"
                             aria-hidden="true"></span>
                         <?php echo $lang_lost_1;?></a></li>
-                <li style="width: 100%;" <?php if($tab === 'ppsetting'){ echo 'class="active"';} ?>><a
+                <!-- <li style="width: 100%;" <?php if($tab === 'ppsetting'){ echo 'class="active"';} ?>><a
                         href="<?php echo $base_url; ?>/salesetting/ppsetting"><span class="glyphicon glyphicon-cog"
                             aria-hidden="true"></span>
-                        prompay setting</a></li>
+                        prompay setting</a></li> -->
 
                 <li style="width: 100%;" <?php if($tab === 'name_of_price'){ echo 'class="active"';} ?>><a
                         href="<?php echo $base_url; ?>/salesetting/name_of_price"><span class="glyphicon glyphicon-cog"
@@ -38,7 +38,7 @@ a {
                 <li style="width: 100%;" <?php if($tab === 'exchangerate'){ echo 'class="active"';} ?>><a
                         href="<?php echo $base_url; ?>/salesetting/exchangerate"><span class="glyphicon glyphicon-cog"
                             aria-hidden="true"></span>
-                        <?php echo $lang_lost_2;?></a></li>
+                        ອັດຕາແລກປ່ຽນ</a></li>
 
                 <li style="width: 100%;" <?php if($tab === 'discount'){ echo 'class="active"';} ?>><a
                         href="<?php echo $base_url; ?>/salesetting/discount"><span class="glyphicon glyphicon-flash"
@@ -86,11 +86,11 @@ a {
                 </li>
 
 
-                <li style="width: 100%;" <?php if($tab === 'linenotify'){ echo 'class="active"';} ?>>
+                <!-- <li style="width: 100%;" <?php if($tab === 'linenotify'){ echo 'class="active"';} ?>>
                     <a href="<?php echo $base_url; ?>/salesetting/linenotify">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         ແຈ້ງເຕື່ອນຜ່ານທາງ LINE Notify </a>
-                </li>
+                </li> -->
 
             </ul>
 

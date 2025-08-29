@@ -107,10 +107,6 @@ exit();
 }
 
 
-
-
-
-
     function Delete()
     {
  
@@ -133,4 +129,3 @@ $success = $this->exchangerate_model->Delete($data);
 
 
 	}
-
