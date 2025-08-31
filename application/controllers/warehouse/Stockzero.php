@@ -40,7 +40,7 @@ $data['title'] = 'Product Stock Zero';
 }
 
 
-	 function Getstock()
+	 function Getstockzero()
     {
 
 
@@ -49,19 +49,9 @@ if(!isset($data)){
 exit();
 }
 
-echo $list = $this->stockzero_model->Getstock($data);
-
-
+echo $list = $this->stockzero_model->Getstockzero($data);
 
 }
-
-
-
-
-
-
-
-
 
 
 	}

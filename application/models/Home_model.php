@@ -180,9 +180,25 @@ $query = $this->db->query('SELECT
 	s.product_stock_num
     FROM stock as s
 	LEFT JOIN wh_product_list as wl on s.product_id=wl.product_id
-    WHERE s.product_stock_num > 0
+    WHERE s.product_stock_num <= 3
 	GROUP BY s.product_id
-    ORDER BY s.product_stock_num+0 ASC  LIMIT 15  ');
+    ORDER BY s.product_stock_num+0 ASC  LIMIT 15');
+    $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+     return $encode_data;
+        }
+
+        // ================================
+          public function Productstockzero()
+        {
+
+$query = $this->db->query('SELECT
+    wl.product_name,
+	s.product_stock_num
+    FROM stock as s
+	LEFT JOIN wh_product_list as wl on s.product_id=wl.product_id
+    WHERE s.product_stock_num =0
+	GROUP BY s.product_id
+    ORDER BY s.product_stock_num+0 ASC  LIMIT 15');
     $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
      return $encode_data;
         }

@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Reportoutstock extends MY_Controller {
+class Stockless extends MY_Controller {
 
 
  public function __construct()
     {
         parent::__construct();
         $this->load->database();
-        $this->load->model('warehouse/reportoutstock_model');
+        $this->load->model('warehouse/stockless_model');
 
      if(!isset($_SESSION['owner_id'])){
             header( "location: ".$this->base_url );
@@ -34,20 +34,42 @@ class Reportoutstock extends MY_Controller {
 	{
 
 
-$data['tab'] = 'reportoutstock';
-$data['title'] = 'Report Out Stock';
-		$this->warehouselayout('warehouse/reportoutstock',$data);
+$data['tab'] = 'stockless';
+$data['title'] = 'Product Stock less';
+		$this->warehouselayout('warehouse/stockless',$data);
+}
+
+
+	 function Getstockless()
+    {
+
+
+$data = json_decode(file_get_contents("php://input"),true);
+if(!isset($data)){
+exit();
+}
+
+echo $list = $this->stockless_model->Getstockless($data);
+
+
+
 }
 
 
 
+// function Getstockless()
+//  {
+//     $data = json_decode(file_get_contents("php://input"), true);
+//     if (!isset($data)) {
+//         exit();
+//     }
 
-function Get()
-    {
+//     $list = $this->stockless_model->Getstockless($data);
 
-$data = json_decode(file_get_contents("php://input"),true);
-echo  $this->reportoutstock_model->Get($data);
+//     // ensure proper JSON response
+//     header('Content-Type: application/json');
+//     echo json_encode($list);
+// }
 
-	}
 
 	}

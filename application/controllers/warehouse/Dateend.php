@@ -54,6 +54,20 @@ echo $list = $this->dateend_model->Getstock($data);
 
 
 }
+	 function Getdateend()
+    {
+
+
+$data = json_decode(file_get_contents("php://input"),true);
+if(!isset($data)){
+exit();
+}
+
+echo $list = $this->dateend_model->Getdateend($data);
+
+
+
+}
 
 
 

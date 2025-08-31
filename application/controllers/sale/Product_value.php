@@ -43,7 +43,6 @@ $data['title'] = 'Product Value';
 	 function Getstock()
     {
 
-
 $data = json_decode(file_get_contents("php://input"),true);
 if(!isset($data)){
 exit();
@@ -51,9 +50,33 @@ exit();
 
 echo $list = $this->product_value_model->Getstock($data);
 
-
-      
 }
+
+// public function Getstock()
+// {
+//     $data = json_decode(file_get_contents("php://input"), true);
+//     $list = $this->product_value_model->Getstock($data);
+//     header('Content-Type: application/json');
+//     echo json_encode($list);
+// }
+
+
+// public function Getstock()
+// {
+//     // if body exists, decode it
+//     $data = json_decode(file_get_contents("php://input"), true);
+
+//     // fallback: if no body, use query string params (for GET)
+//     if (!$data) {
+//         $data = $this->input->get();
+//     }
+
+//     $list = $this->product_value_model->Getstock($data);
+
+//     // always return JSON
+//     header('Content-Type: application/json');
+//     echo json_encode($list);
+// }
 
 
 
@@ -130,4 +153,3 @@ $success = $this->product_value_model->Updatematok($data);
 
 
 	}
-

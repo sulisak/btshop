@@ -1,6 +1,6 @@
 <?php
 
-class Stockzero_model extends CI_Model {
+class Stockless_model extends CI_Model {
 
 
 
@@ -18,7 +18,7 @@ class Stockzero_model extends CI_Model {
 
 
 
-         public function Getstockzero($data)
+         public function Getstockless($data)
         {
 
 
@@ -52,10 +52,10 @@ $querynum = $this->db->query('SELECT
     LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
     LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
 	LEFT JOIN stock as s on s.product_id=wl.product_id
-    WHERE s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND wl.product_code LIKE "%'.$data['searchtext'].'%"
-    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND wl.product_name LIKE "%'.$data['searchtext'].'%"
-    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND z.zone_name LIKE "%'.$data['searchtext'].'%"
-	OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND wc.product_category_name LIKE "%'.$data['searchtext'].'%"
+    WHERE s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 AND wl.product_code LIKE "%'.$data['searchtext'].'%"
+    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 AND wl.product_name LIKE "%'.$data['searchtext'].'%"
+    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 AND z.zone_name LIKE "%'.$data['searchtext'].'%"
+	OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 AND wc.product_category_name LIKE "%'.$data['searchtext'].'%"
 ORDER BY wl.product_stock_num ASC');
 
 
@@ -77,10 +77,10 @@ $query = $this->db->query('SELECT
     LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
     LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
 	LEFT JOIN stock as s on s.product_id=wl.product_id
-    WHERE s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND wl.product_code LIKE "%'.$data['searchtext'].'%"
-    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND wl.product_name LIKE "%'.$data['searchtext'].'%"
-    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND z.zone_name LIKE "%'.$data['searchtext'].'%"
-	OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num < 1 AND wl.count_stock="0" AND wc.product_category_name LIKE "%'.$data['searchtext'].'%"
+    WHERE s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3  AND wl.product_code LIKE "%'.$data['searchtext'].'%"
+    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3  AND wl.product_name LIKE "%'.$data['searchtext'].'%"
+    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 AND z.zone_name LIKE "%'.$data['searchtext'].'%"
+	OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3  AND wc.product_category_name LIKE "%'.$data['searchtext'].'%"
 
     ORDER BY s.product_stock_num ASC  LIMIT '.$start.' , '.$perpage.'  ');
 
@@ -104,30 +104,6 @@ $json = '{"list": '.$encode_data.',
 return $json;
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

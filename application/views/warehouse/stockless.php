@@ -144,11 +144,14 @@ app.controller('Index', function($scope, $http, $location) {
             var perpage = '10';
         }
 
-        $http.post("Stockzero/Getstock", {
+        $http.post("Stockless/Getstockless", {
             searchtext: searchtext,
             page: page,
             perpage: perpage
         }).success(function(data) {
+
+            console.log("Raw response:", data); //  log everything
+
             $scope.list = data.list;
             $scope.pageall = data.pageall;
             $scope.numall = data.numall;
@@ -165,18 +168,6 @@ app.controller('Index', function($scope, $http, $location) {
         });
     };
     $scope.getlist('', '1');
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 });

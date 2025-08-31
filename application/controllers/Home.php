@@ -192,7 +192,14 @@ function Productoutofstock()
 echo $this->home_model->Productoutofstock();
 
 }
+// =========================
+function Productstockzero()
+{
 
+echo $this->home_model->Productstockzero();
+
+}
+// =========================
 
 
 function Productdateend()
