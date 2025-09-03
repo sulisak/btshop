@@ -128,7 +128,7 @@ $data['product_pricebase'] = $_POST['product_pricebase'];
 $data['product_category_id'] = $_POST['product_category_id'];
 $data['product_unit_id'] = $_POST['product_unit_id'];
 $data['supplier_id'] = $_POST['supplier_id'];
-// $data['product_score'] = $_POST['product_score'];
+$data['product_score'] = $_POST['product_score'];
 $data['zone_id'] = $_POST['zone_id'];
 // $data['count_stock'] = $_POST['count_stock'];
 

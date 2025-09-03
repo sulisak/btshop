@@ -34,7 +34,7 @@ $data2['supplier_id'] = $data['supplier_id'];
 $data2['owner_id'] = $_SESSION['owner_id'];
 $data2['user_id'] = $_SESSION['user_id'];
 $data2['store_id'] = $_SESSION['store_id'];
-// $data2['product_score'] = $data['product_score'];
+$data2['product_score'] = $data['product_score'];
 $data2['zone_id'] = $data['zone_id'];
 // $data2['count_stock'] = $data['count_stock'];
 $data2['product_num_min'] = $data['product_num_min'];
@@ -253,16 +253,6 @@ if ($this->db->update("wh_product_list", $data2)){
 }
 
 
-
-
-
-
-
-
-
-
-
-
            public function Updatenopic($data)
         {
 
@@ -274,10 +264,6 @@ $this->db->where($where);
 $this->db->update("wh_product_list", $data2);
 
 }
-
-
-
-
 
 
            public function Update_vat($data)

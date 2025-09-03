@@ -120,7 +120,7 @@ $query = $this->db->query('SELECT
    *
      FROM supplier
     WHERE owner_id="'.$_SESSION['owner_id'].'" 
-    ORDER BY rank ASC,supplier_id DESC ');
+    ORDER BY supplier_name ASC,supplier_id DESC ');
 
 $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
 

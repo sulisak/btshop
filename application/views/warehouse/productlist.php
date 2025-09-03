@@ -896,7 +896,7 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                         </div>
                         <div class="modal-body text-center">
                             <h1><b>
-                                    <?php echo $lang_pl_49;?>
+                                    ກຳລັງດຳເນີນການ...
                                 </b>
                             </h1>
                             <br />
@@ -1373,12 +1373,13 @@ app.controller('Index', function($scope, $http, $location) {
                 contentType: false,
                 processData: false,
                 success: function(data) {
-
                     if (data == '1') {
-                        toastr.warning('<?php echo $lang_pl_55;?>');
+                        toastr.warning('ມີສິນຄ້ານີ້ແລ້ວ');
                         $('#Openeditloading').modal('hide');
                     } else {
                         toastr.success('<?php echo $lang_success;?>');
+
+
                         $("#uploadImg")[0].reset();
                         $('#Openadd').modal('hide');
                         $scope.getlist();
@@ -1390,6 +1391,7 @@ app.controller('Index', function($scope, $http, $location) {
                     console.log("error");
                     console.log(data);
                 }
+
             });
         }));
 
