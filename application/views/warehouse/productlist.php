@@ -1398,8 +1398,6 @@ app.controller('Index', function($scope, $http, $location) {
 
     });
 
-
-
     $scope.Editinputproduct = function(x) {
         $('#Openedit').modal('show');
         $("#product_id").val(x.product_id);
