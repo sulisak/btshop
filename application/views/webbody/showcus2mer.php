@@ -155,7 +155,7 @@
                 </div>
                 <table class="table table-hover" width="100%">
                     <thead
-                        style="background-color:#66ccff;color:#fff;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                        style="font-size:20px;background-color:#0099ff;color:#fff;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
                         <tr>
 
                             <th width="<?php if($show_pricepernum=='0'){echo '35%';}else{echo '60%';}?>">
@@ -271,7 +271,7 @@
                     <tbody>
 
                         <tr
-                            style="font-size:20px;background-color:#66ccff;color:#fff;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                            style="font-size:20px;background-color:#0099ff;color:#fff;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
                             <td align="left"><?=$lang_sumall?></td>
 
 
@@ -327,11 +327,11 @@
                             <img ng-if="bannerlist[0].image1!=''" src="<?php echo $base_url;?>/<?php echo $image1;?>"
                                 style="width:50px;height:50px;">
                             <button ng-if="bannerlist[0].image1!=''
-                                    && bannerlist[0].image2==''
-                                    && bannerlist[0].image3==''
-                                    && bannerlist[0].image4==''
-                                    && bannerlist[0].image5==''
-                                    " class="btn btn-danger btn-xs" ng-click="Delimage('1')">x</button>
+&& bannerlist[0].image2==''
+&& bannerlist[0].image3==''
+&& bannerlist[0].image4==''
+&& bannerlist[0].image5==''
+" class="btn btn-danger btn-xs" ng-click="Delimage('1')">x</button>
 
                             <img ng-if="bannerlist[0].image2!=''" src="<?php echo $base_url;?>/<?php echo $image2;?>"
                                 style="width:50px;height:50px;">
@@ -418,16 +418,6 @@
                                         <option value="1">ບໍ່ສະແດງ</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    ເລກບັນຊີ
-                                    <input type="text" id="ppid" name="ppid" class="form-control"
-                                        placeholder="ເລກບັນຊີ  0999999999" style="width:300px;">
-                                </div>
-                                <div class="form-group">
-                                    ຊື່ບັນຊີ
-                                    <input type="text" id="ppname" name="ppname" class="form-control"
-                                        placeholder="ຊື່ບັນຊີ  ເຊັ່ນ ຮ້ານເຮັງເຮັງ" style="width:300px;">
-                                </div>
 
 
 
@@ -446,6 +436,29 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <div class="modal fade" id="openchangmoney">
@@ -485,6 +498,13 @@
                             </table>
 
                             <br />
+
+
+
+
+
+
+
                         </div>
                         <div class="modal-footer">
 
