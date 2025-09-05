@@ -358,6 +358,8 @@ GROUP BY wl.product_id
     ORDER BY wl.product_id DESC');
 
 
+
+
 $query = $this->db->query('SELECT
     wl.product_id as product_id,
     wl.product_code as product_code,
