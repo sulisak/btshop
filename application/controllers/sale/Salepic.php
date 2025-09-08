@@ -482,7 +482,7 @@ if(!isset($_POST['addshiftmoneystart'])){
     $this->salepage_model->Addshiftmoneystart($data);
 	
 	echo '<script>
-	alert("เพิ่มเงินเริ่มต้นในกะเรียบร้อย รวมเป็น '.$_SESSION['shift_money_start'].'");
+	alert("ເພີ່ມເງິນໃນກະເລີ່ມຕົ້ນລວມເປັນ '.$_SESSION['shift_money_start'].'");
 	window.location="'.$_SERVER['HTTP_REFERER'].'";
 	</script>';
 	

@@ -687,7 +687,7 @@ if($_SESSION['owner_vat_status']=='2'){
 
 
                         </center>
-
+                        <!-- select product for sale -->
                         <table class="table">
                             <tbody>
 
@@ -763,7 +763,7 @@ if($_SESSION['owner_vat_status']=='2'){
                             </tbody>
                         </table>
 
-
+                        <!-- select product for sale -->
 
 
                         <table class="table">
@@ -1110,7 +1110,7 @@ if($_SESSION['owner_vat_status']=='2'){
 
 
 
-                                        <input ng-model="search_quotationlist" type="text" placeholder="ค้นหา..."
+                                        <input ng-model="search_quotationlist" type="text" placeholder="ຄົ້ນຫາ..."
                                             class="form-control" style="width:200px;">
                                         <table class="table table-hover table-bordered">
                                             <thead>
@@ -1128,13 +1128,13 @@ if($_SESSION['owner_vat_status']=='2'){
 
 
                                                     <?php
-				if($_SESSION['owner_vat_status']=='2'){
-				?>
+                                                    if($_SESSION['owner_vat_status']=='2'){
+                                                    ?>
                                                     <th><?=$lang_vat?> Exclude %</th>
                                                     <th><?=$lang_pricesumvat?></th>
                                                     <?php
-				}
-				?>
+                                                        }
+                                                        ?>
 
 
                                                     <th><?=$lang_discountlast?></th>
@@ -1184,15 +1184,15 @@ if($_SESSION['owner_vat_status']=='2'){
 
 
                                                     <?php
-				if($_SESSION['owner_vat_status']=='2'){
-				?>
+                                                    if($_SESSION['owner_vat_status']=='2'){
+                                                    ?>
                                                     <td align="right">{{x.sumsale_price * (x.vat/100) | number}}</td>
                                                     <td align="right">
                                                         {{ParsefloatFunc(x.sumsale_price)  * (ParsefloatFunc(x.vat)/100) + ParsefloatFunc(x.sumsale_price) | number}}
                                                     </td>
                                                     <?php
-				}
-				?>
+                                                        }
+                                                        ?>
 
 
 
@@ -4721,7 +4721,7 @@ if($_SESSION['user_type']=='0' || '2' || '3'){
                                                 <table class="table table-hover table-bordered">
                                                     <thead>
                                                         <tr class="trheader">
-                                                            <th><?=$lang_rank?></th>
+                                                            <th><?=$lang_rank?>test</th>
                                                             <th><?=$lang_runno?></th>
                                                             <th><?=$lang_cusname?></th>
 
@@ -4734,13 +4734,13 @@ if($_SESSION['user_type']=='0' || '2' || '3'){
 
 
                                                             <?php
-if($_SESSION['owner_vat_status']=='2'){
-?>
+                                                            if($_SESSION['owner_vat_status']=='2'){
+                                                            ?>
                                                             <th><?=$lang_vat?> Exclude %</th>
                                                             <th><?=$lang_pricesumvat?></th>
                                                             <?php
-}
-?>
+                                                                }
+                                                                ?>
 
 
                                                             <th><?=$lang_discountlast?></th>

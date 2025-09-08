@@ -535,6 +535,7 @@ $data['lang_product'] = 'ສິນຄ້າ';
 $data['lang_productunit'] = 'ຫົວໜ່ວຍ';
 $data['lang_sum'] = 'ລວມ';
 $data['lang_discountlast'] = 'ສ່ວນຫຼຸດທ້າຍບິນ';
+$data['lang_discountlast_all'] = 'ສ່ວນຫຼຸດທ້າຍບິນທັງໝົດ';
 
 $data['lang_retailx'] = 'ຍ່ອຍ';
 $data['lang_wsale'] = 'ສົ່ງ';
@@ -1323,7 +1324,7 @@ $data['lang_srps_2'] = 'ຜູ້ຂາຍ';
 $data['lang_srps_3'] = 'ຍອດຄືນ';
 $data['lang_srps_4'] = 'ຈຳນວນຂາຍທັ້ງໝົດ';
 $data['lang_srps_5'] = 'ຮັບເງິນທັ້ງໝົດ';
-$data['lang_srps_6'] = 'ຂາດ/ເກີນ';
+$data['lang_srps_6'] = 'ກຳໄລ/ຫຼຸດທຶນ';
 $data['lang_srps_7'] = ' ບິນປິດຍອດ ກະທີ່';
 $data['lang_srps_8'] = 'ເລີ່ມ';
 $data['lang_srps_9'] = 'ເຖິງ';
