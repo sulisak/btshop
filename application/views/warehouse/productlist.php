@@ -79,7 +79,7 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
                             <th style="text-align: center;"><?=$lang_barcode?></th>
                             <th style="text-align: center;"><?=$lang_picproduct?></th>
                             <th style="text-align: center;"><?=$lang_productname?></th>
-                            <th style="text-align: center;">ວັນໝົດອາຍຸ</th>
+                            <!-- <th style="text-align: center;">ວັນໝົດອາຍຸ</th> -->
                             <th style="text-align: center;"><?=$lang_detail?></th>
                             <th style="text-align: center;"><?php echo $lang_pl_4;?></th>
 
@@ -170,7 +170,7 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
                             </td>
 
 
-                            <td>{{x.product_date_end}}</td>
+                            <!-- <td>{{x.product_date_end}}</td> -->
 
 
                             <td>{{x.product_des}}

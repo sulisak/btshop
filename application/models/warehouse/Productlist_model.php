@@ -302,129 +302,235 @@ $this->db->update("wh_product_list", $data2);
 
 
 
-           public function Get($data)
-        {
+//            public function Get($data)
+//         {
 
-            $perpage = $data['perpage'];
+//             $perpage = $data['perpage'];
 
-            if($data['page'] && $data['page'] != ''){
-$page = $data['page'];
-            }else{
-          $page = '1';
-            }
-
-
-$start = ($page - 1) * $perpage;
-
-$querynum = $this->db->query('SELECT
-    wl.product_id as product_id,
-    wl.product_code as product_code,
-    wl.product_name as product_name,
-    wl.product_date_end as product_date_end,
-    wl.product_des as product_des,
-    wl.product_image as product_image,
-    wl.product_price as product_price,
-    wl.product_wholesale_price as product_wholesale_price,
-	-- wl.product_price3 as product_price3,
-	-- wl.product_price4 as product_price4,
-	-- wl.product_price5 as product_price5,
-    wl.product_pricebase as product_pricebase,
-    wl.product_stock_num as product_stock_num,
-    wl.product_price_value as product_price_value,
-    wl.product_category_id as product_category_id,
-    wc.product_category_name as product_category_name,
-    wl.supplier_id as supplier_id,
-    sp.supplier_name as supplier_name,
-    wl.zone_id as zone_id,
-	wl.is_course as is_course,
-    z.zone_name as zone_name,
-    wu.product_unit_id as product_unit_id,
-    wu.product_unit_name as product_unit_name
-    FROM wh_product_list  as wl
-    LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
-    LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
-    LEFT JOIN supplier as sp on sp.supplier_id=wl.supplier_id
-    LEFT JOIN zone as z on z.zone_id=wl.zone_id
-LEFT JOIN serial_number as sn on sn.product_id=wl.product_id
-    WHERE
-    wl.product_code LIKE "%'.$data['searchtext'].'%"
-    OR wl.product_name LIKE "%'.$data['searchtext'].'%"
-    OR wl.product_des LIKE "%'.$data['searchtext'].'%"
-    OR wc.product_category_name LIKE "%'.$data['searchtext'].'%"
-    OR z.zone_name="'.$data['searchtext'].'"
-    OR sp.supplier_name LIKE "%'.$data['searchtext'].'%"
-OR sn.sn_code LIKE "%'.$data['searchtext'].'%"
-GROUP BY wl.product_id
-    ORDER BY wl.product_id DESC');
+//             if($data['page'] && $data['page'] != ''){
+// $page = $data['page'];
+//             }else{
+//           $page = '1';
+//             }
 
 
+// $start = ($page - 1) * $perpage;
 
-
-$query = $this->db->query('SELECT
-    wl.product_id as product_id,
-    wl.product_code as product_code,
-    wl.product_name as product_name,
-		wl.have_vat as have_vat,
-		wl.popup_pricenum as popup_pricenum,
-    wl.product_date_end as product_date_end,
-    wl.product_des as product_des,
-    wl.product_image as product_image,
-    wl.product_price as product_price,
-    wl.product_wholesale_price as product_wholesale_price,
-	-- wl.product_price3 as product_price3,
-	-- wl.product_price4 as product_price4,
-	-- wl.product_price5 as product_price5,
-    wl.product_score as product_score,
-    wl.product_pricebase as product_pricebase,
-    IFNULL((SELECT s.product_stock_num FROM stock as s WHERE s.product_id=wl.product_id AND s.branch_id="'.$_SESSION['branch_id'].'" LIMIT 1), "0") as product_stock_num,
-    IFNULL((SELECT COUNT(sn_id) FROM serial_number as s WHERE s.status="0" AND s.product_id=wl.product_id AND s.branch_id="'.$_SESSION['branch_id'].'"), "0") as csn,
-	wl.product_price_value as product_price_value,
-    wl.product_category_id as product_category_id,
-    wc.product_category_name as product_category_name,
-    wl.supplier_id as supplier_id,
-    sp.supplier_name as supplier_name,
-	wl.count_stock,
-    wl.zone_id as zone_id,
-	wl.is_course as is_course,
-	wl.product_weight as product_weight,
-    z.zone_name as zone_name,
-    wl.product_unit_id as product_unit_id,
-    IFNULL(wu.product_unit_name,"") as product_unit_name,
-    wl.product_num_min as product_num_min,
- (SELECT count(*) FROM wh_product_other_list as sd WHERE sd.product_id=wl.product_id) as product_num_other2,
-  (SELECT count(*) FROM wh_product_relation_list as sd WHERE sd.product_id=wl.product_id) as product_num_other
-    FROM wh_product_list  as wl
-    LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
-    LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
-    LEFT JOIN supplier as sp on sp.supplier_id=wl.supplier_id
-    LEFT JOIN zone as z on z.zone_id=wl.zone_id
-LEFT JOIN serial_number as sn on sn.product_id=wl.product_id
-    WHERE  wl.product_code LIKE "%'.$data['searchtext'].'%"
-    OR wl.product_name LIKE "%'.$data['searchtext'].'%"
-    OR wl.product_des LIKE "%'.$data['searchtext'].'%"
-    OR wc.product_category_name LIKE "%'.$data['searchtext'].'%"
-    OR z.zone_name="'.$data['searchtext'].'"
-    OR sp.supplier_name LIKE "%'.$data['searchtext'].'%"
-OR sn.sn_code LIKE "%'.$data['searchtext'].'%"
-GROUP BY wl.product_id
-    ORDER BY wl.product_id DESC  LIMIT '.$start.' , '.$perpage.'  ');
-
-$encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
-
-
-$num_rows = $querynum->num_rows();
-
-$pageall = ceil($num_rows/$perpage);
+// $querynum = $this->db->query('SELECT
+//     wl.product_id as product_id,
+//     wl.product_code as product_code,
+//     wl.product_name as product_name,
+//     wl.product_date_end as product_date_end,
+//     wl.product_des as product_des,
+//     wl.product_image as product_image,
+//     wl.product_price as product_price,
+//     wl.product_wholesale_price as product_wholesale_price,
+// 	-- wl.product_price3 as product_price3,
+// 	-- wl.product_price4 as product_price4,
+// 	-- wl.product_price5 as product_price5,
+//     wl.product_pricebase as product_pricebase,
+//     wl.product_stock_num as product_stock_num,
+//     wl.product_price_value as product_price_value,
+//     wl.product_category_id as product_category_id,
+//     wc.product_category_name as product_category_name,
+//     wl.supplier_id as supplier_id,
+//     sp.supplier_name as supplier_name,
+//     wl.zone_id as zone_id,
+// 	wl.is_course as is_course,
+//     z.zone_name as zone_name,
+//     wu.product_unit_id as product_unit_id,
+//     wu.product_unit_name as product_unit_name
+//     FROM wh_product_list  as wl
+//     LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
+//     LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
+//     LEFT JOIN supplier as sp on sp.supplier_id=wl.supplier_id
+//     LEFT JOIN zone as z on z.zone_id=wl.zone_id
+// LEFT JOIN serial_number as sn on sn.product_id=wl.product_id
+//     WHERE
+//     wl.product_code LIKE "%'.$data['searchtext'].'%"
+//     OR wl.product_name LIKE "%'.$data['searchtext'].'%"
+//     OR wl.product_des LIKE "%'.$data['searchtext'].'%"
+//     OR wc.product_category_name LIKE "%'.$data['searchtext'].'%"
+//     OR z.zone_name="'.$data['searchtext'].'"
+//     OR sp.supplier_name LIKE "%'.$data['searchtext'].'%"
+// OR sn.sn_code LIKE "%'.$data['searchtext'].'%"
+// GROUP BY wl.product_id
+//     ORDER BY wl.product_id DESC');
 
 
 
 
-$json = '{"list": '.$encode_data.',
-"numall": '.$num_rows.',"perpage": '.$perpage.', "pageall": '.$pageall.'}';
+// $query = $this->db->query('SELECT
+//     wl.product_id as product_id,
+//     wl.product_code as product_code,
+//     wl.product_name as product_name,
+// 		wl.have_vat as have_vat,
+// 		wl.popup_pricenum as popup_pricenum,
+//     wl.product_date_end as product_date_end,
+//     wl.product_des as product_des,
+//     wl.product_image as product_image,
+//     wl.product_price as product_price,
+//     wl.product_wholesale_price as product_wholesale_price,
+// 	-- wl.product_price3 as product_price3,
+// 	-- wl.product_price4 as product_price4,
+// 	-- wl.product_price5 as product_price5,
+//     wl.product_score as product_score,
+//     wl.product_pricebase as product_pricebase,
+//     IFNULL((SELECT s.product_stock_num FROM stock as s WHERE s.product_id=wl.product_id AND s.branch_id="'.$_SESSION['branch_id'].'" LIMIT 1), "0") as product_stock_num,
+//     IFNULL((SELECT COUNT(sn_id) FROM serial_number as s WHERE s.status="0" AND s.product_id=wl.product_id AND s.branch_id="'.$_SESSION['branch_id'].'"), "0") as csn,
+// 	wl.product_price_value as product_price_value,
+//     wl.product_category_id as product_category_id,
+//     wc.product_category_name as product_category_name,
+//     wl.supplier_id as supplier_id,
+//     sp.supplier_name as supplier_name,
+// 	wl.count_stock,
+//     wl.zone_id as zone_id,
+// 	wl.is_course as is_course,
+// 	wl.product_weight as product_weight,
+//     z.zone_name as zone_name,
+//     wl.product_unit_id as product_unit_id,
+//     IFNULL(wu.product_unit_name,"") as product_unit_name,
+//     wl.product_num_min as product_num_min,
+//  (SELECT count(*) FROM wh_product_other_list as sd WHERE sd.product_id=wl.product_id) as product_num_other2,
+//   (SELECT count(*) FROM wh_product_relation_list as sd WHERE sd.product_id=wl.product_id) as product_num_other
+//     FROM wh_product_list  as wl
+//     LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
+//     LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
+//     LEFT JOIN supplier as sp on sp.supplier_id=wl.supplier_id
+//     LEFT JOIN zone as z on z.zone_id=wl.zone_id
+// LEFT JOIN serial_number as sn on sn.product_id=wl.product_id
+//     WHERE  wl.product_code LIKE "%'.$data['searchtext'].'%"
+//     OR wl.product_name LIKE "%'.$data['searchtext'].'%"
+//     OR wl.product_des LIKE "%'.$data['searchtext'].'%"
+//     OR wc.product_category_name LIKE "%'.$data['searchtext'].'%"
+//     OR z.zone_name="'.$data['searchtext'].'"
+//     OR sp.supplier_name LIKE "%'.$data['searchtext'].'%"
+// OR sn.sn_code LIKE "%'.$data['searchtext'].'%"
+// GROUP BY wl.product_id
+//     ORDER BY wl.product_id DESC  LIMIT '.$start.' , '.$perpage.'  ');
 
-return $json;
+// $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
 
-        }
+
+// $num_rows = $querynum->num_rows();
+
+// $pageall = ceil($num_rows/$perpage);
+
+
+
+
+// $json = '{"list": '.$encode_data.',
+// "numall": '.$num_rows.',"perpage": '.$perpage.', "pageall": '.$pageall.'}';
+
+// return $json;
+
+//         }
+         public function Get($data)
+{
+    $perpage = (int)$data['perpage'];
+    $page = !empty($data['page']) ? (int)$data['page'] : 1;
+    $start = ($page - 1) * $perpage;
+
+    // sanitize search text
+    $search = $this->db->escape_like_str($data['searchtext']);
+    $branch_id = $_SESSION['branch_id'];
+
+    // ------------------------
+    // Count query ($querynum)
+    // ------------------------
+    $querynum = $this->db->query("
+        SELECT COUNT(DISTINCT wl.product_id) AS total
+        FROM wh_product_list wl
+        LEFT JOIN wh_product_category wc ON wc.product_category_id = wl.product_category_id
+        LEFT JOIN supplier sp ON sp.supplier_id = wl.supplier_id
+        LEFT JOIN zone z ON z.zone_id = wl.zone_id
+        LEFT JOIN serial_number sn ON sn.product_id = wl.product_id
+        WHERE wl.product_code LIKE '%{$search}%'
+           OR wl.product_name LIKE '%{$search}%'
+           OR wl.product_des LIKE '%{$search}%'
+           OR wc.product_category_name LIKE '%{$search}%'
+           OR z.zone_name LIKE '%{$search}%'
+           OR sp.supplier_name LIKE '%{$search}%'
+           OR sn.sn_code LIKE '%{$search}%'
+    ");
+
+    $num_rows = $querynum->row()->total;
+
+    // ------------------------
+    // Data query ($query)
+    // ------------------------
+    $query = $this->db->query("
+        SELECT
+            wl.product_id,
+            wl.product_code,
+            wl.product_name,
+            wl.have_vat,
+            wl.popup_pricenum,
+            wl.product_date_end,
+            wl.product_des,
+            wl.product_image,
+            wl.product_price,
+            wl.product_wholesale_price,
+            wl.product_score,
+            wl.product_pricebase,
+            IFNULL(s.product_stock_num, 0) AS product_stock_num,
+            IFNULL(sn_count.csn, 0) AS csn,
+            wl.product_price_value,
+            wl.product_category_id,
+            wc.product_category_name,
+            wl.supplier_id,
+            sp.supplier_name,
+            wl.count_stock,
+            wl.zone_id,
+            wl.is_course,
+            wl.product_weight,
+            z.zone_name,
+            wl.product_unit_id,
+            IFNULL(wu.product_unit_name, '') AS product_unit_name,
+            wl.product_num_min,
+            (SELECT COUNT(*) FROM wh_product_other_list sd WHERE sd.product_id = wl.product_id) AS product_num_other2,
+            (SELECT COUNT(*) FROM wh_product_relation_list sd WHERE sd.product_id = wl.product_id) AS product_num_other
+        FROM wh_product_list wl
+        LEFT JOIN wh_product_category wc ON wc.product_category_id = wl.product_category_id
+        LEFT JOIN wh_product_unit wu ON wu.product_unit_id = wl.product_unit_id
+        LEFT JOIN supplier sp ON sp.supplier_id = wl.supplier_id
+        LEFT JOIN zone z ON z.zone_id = wl.zone_id
+        LEFT JOIN stock s ON s.product_id = wl.product_id AND s.branch_id = '{$branch_id}'
+        LEFT JOIN (
+            SELECT product_id, COUNT(sn_id) AS csn
+            FROM serial_number
+            WHERE status = '0' AND branch_id = '{$branch_id}'
+            GROUP BY product_id
+        ) sn_count ON sn_count.product_id = wl.product_id
+        LEFT JOIN serial_number sn ON sn.product_id = wl.product_id
+        WHERE wl.product_code LIKE '%{$search}%'
+           OR wl.product_name LIKE '%{$search}%'
+           OR wl.product_des LIKE '%{$search}%'
+           OR wc.product_category_name LIKE '%{$search}%'
+           OR z.zone_name LIKE '%{$search}%'
+           OR sp.supplier_name LIKE '%{$search}%'
+           OR sn.sn_code LIKE '%{$search}%'
+        GROUP BY wl.product_id
+        ORDER BY wl.product_id DESC
+        LIMIT {$start}, {$perpage}
+    ");
+
+    // ------------------------
+    // Build JSON response
+    // ------------------------
+    $encode_data = json_encode($query->result(), JSON_UNESCAPED_UNICODE);
+    $pageall = ceil($num_rows / $perpage);
+
+    $json = '{
+        "list": '.$encode_data.',
+        "numall": '.$num_rows.',
+        "perpage": '.$perpage.',
+        "pageall": '.$pageall.'
+    }';
+
+    return $json;
+}
+
 
 
 
