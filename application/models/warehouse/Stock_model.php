@@ -179,8 +179,6 @@ return $json;
 
    public function Updatematok($data)
         {
-
-
 $this->db->query('DELETE FROM stock  
 WHERE product_id="'.$data['product_id'].'" and  branch_id="'.$_SESSION['branch_id'].'"');
 
@@ -190,9 +188,6 @@ $data2['branch_id'] = $_SESSION['branch_id'];
 $data2['product_stock_num'] = $data['product_stock_num_change'];
 $this->db->insert("stock", $data2);
 
-
-	
-
 // log update
 $data['adddate'] = time();
 $data['user_id'] = $_SESSION['user_id'];
@@ -200,8 +195,6 @@ $data['name'] = $_SESSION['name'];
 $data['branch_id'] = $_SESSION['branch_id'];
 $this->db->insert("log_edit_product_stock", $data);
 	
-
-
 $query_prl = $this->db->query('SELECT
         *
         FROM wh_product_relation_list as wrl
@@ -211,8 +204,6 @@ $prl = $query_prl->result_array();
 
 foreach ($prl as $key => $value) {
 
-
-
 if($value['product_type_relation'] == 0){
 	
 	
@@ -221,14 +212,11 @@ if($value['product_type_relation'] == 0){
            FROM stock
            WHERE product_id="'.$value['product_id_relation'].'" AND branch_id="'.$_SESSION['branch_id'].'" LIMIT 1');
 		   
-
 foreach ($querystock->result() as $row)
 {
 	$product_stock_num = $row->product_stock_num;
 
 }
-
-
 
 // log 
 $data2['product_id'] = $value['product_id_relation'];
@@ -245,8 +233,6 @@ $this->db->insert("log_edit_product_stock", $data2);
 $this->db->query('DELETE FROM stock  
 WHERE product_id="'.$value['product_id_relation'].'" and  branch_id="'.$_SESSION['branch_id'].'"');
 
-
-
 $data_ss['product_id'] = $value['product_id_relation'];
 $data_ss['branch_id'] = $_SESSION['branch_id'];
 $data_ss['product_stock_num'] = $value['product_num_relation']*$data['product_stock_num_change'];
@@ -254,15 +240,7 @@ $this->db->insert("stock", $data_ss);
 
 }
 
-
-
-
 }
-
-
-
-
-
 
 }
 

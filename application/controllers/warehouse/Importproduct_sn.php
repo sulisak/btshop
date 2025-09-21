@@ -108,9 +108,6 @@ $this->importproduct_sn_model->Add($data);
 //echo json_encode($items);
 
 
-
-
-
 }
 
 

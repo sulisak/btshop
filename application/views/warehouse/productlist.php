@@ -1,3 +1,40 @@
+<style>
+td.image-cell {
+    width: 280px;
+    /* fixed width for column */
+    vertical-align: top;
+    /* align to top */
+    text-align: center;
+    /* center contents */
+    padding: 10px;
+}
+
+.image-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* stack image + button vertically */
+    align-items: center;
+    /* center horizontally */
+}
+
+.product-image {
+    width: 200px;
+    /* square image */
+    height: 200px;
+    object-fit: cover;
+    /* crop to fit square */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    /* optional shadow for style */
+}
+
+.mt-2 {
+    margin-top: 8px;
+    /* space between image and button */
+}
+</style>
+
+
 <?php 
 foreach ($Getpermission_rule as $value) {
  $arr =  json_decode($value['permission_rule']);
@@ -62,17 +99,30 @@ foreach ($Getpermission_rule as $value) {
 if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admin & vendor show delete button
 
 {?>
+
+            <br />
             <div style="float: right;">
                 <input type="checkbox" ng-model="showdeletcbut"> <?=$lang_showdel?>
             </div>
             <?php } ?>
-
-
+            <!-- Global toggle button -->
+            <button class="btn btn-sm" ng-class="showAllImages ? 'btn-danger' : 'btn-success'"
+                ng-click="toggleAllImages()">
+                {{ showAllImages ? 'ປິດຮູບທັງໝົດ' : 'ເບິ່ງຮູບທັງໝົດ' }}
+            </button>
+            <br />
+            <p></p>
+            <p></p>
             <div id="openprint_table">
 
 
 
+
+
                 <table ng-if="list" id="headerTable" class="table table-hover table-bordered" style="font-size: 14px;">
+
+
+
                     <thead>
                         <tr style="background-color: #eee;">
                             <th style="width: 50px;"><?=$lang_rank?></th>
@@ -136,26 +186,24 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
                                     QRCODE </a>
 
 
+                            </td>
 
+                            <!-- update image to prevent load image much -->
 
+                            <td class="image-cell">
+                                <div class="image-wrapper">
 
-
+                                    <!-- Show image if global toggle OR row-level toggle is active -->
+                                    <img ng-if="(showAllImages || x.showImage) && x.product_image"
+                                        ng-src="<?php echo $base_url;?>/{{x.product_image}}" class="product-image"
+                                        loading="lazy">
+                                </div>
                             </td>
 
 
 
-                            <td align="center">
-                                <span ng-if="x.product_image!=''">
-                                    <center>
-                                        <img src="<?php echo $base_url;?>/{{x.product_image}}"
-                                            class="img img-responsive" width="70px" height="70px;">
-                                        <br />
-                                        <button class="btn btn-default btn-xs" ng-click="No_product_image(x)">
-                                            <?php echo $lang_pl_15;?> </button>
 
-                                    </center>
-                                </span>
-                            </td>
+                            <!-- update image to prevent load image much -->
 
                             <td>
                                 <b style="font-size:18px;">{{x.product_name}}
@@ -267,38 +315,23 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
             </div>
 
 
-
-
-
+            <!-- Pagination & per-page selection -->
             <form class="form-inline">
-                <div class="form-group">
-                    <?=$lang_show?>
-                    <select class="form-control" name="" id="" ng-model="perpage"
-                        ng-change="getlist(searchtext,'1',perpage)">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                        <option value="300">300</option>
-                        <option value="1000">1000</option>
-                        <option value="3000">3000</option>
-                        <option value="5000">5000</option>
-                        <option value="10000">10000</option>
-                        <option value="100000">100000</option>
-                        <option value="1000000">1000000</option>
-                    </select>
+                <?=$lang_show?>
 
-                    <?=$lang_page?>
-                    <select name="" id="" class="form-control" ng-model="selectthispage"
-                        ng-change="getlist(searchtext,selectthispage,perpage)">
-                        <option ng-repeat="i in pagealladd" value="{{i.a}}">{{i.a}}</option>
-                    </select>
-                </div>
+                <select class="form-control" ng-model="perpage" ng-change="getlist(searchtext,'1',perpage, showImages)">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
 
-
+                <?=$lang_page?>
+                <select class="form-control" ng-model="selectthispage"
+                    ng-change="getlist(searchtext, selectthispage, perpage, showImages)">
+                    <option ng-repeat="i in pagealladd" value="{{i.a}}">{{i.a}}</option>
+                </select>
             </form>
+
 
 
 
@@ -516,8 +549,8 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                 <!-- <input type="hidden" id="product_date_end" name="product_date_end"
                                     placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
 
-                                <input type="text" id="product_date_end" name="product_date_end"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
+                                <!-- <input type="text" id="product_date_end" name="product_date_end"
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
 
                                 <?=$lang_productunit?>
                                 <select class="form-control" name="product_unit_id">
@@ -741,9 +774,9 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                     placeholder="<?=$lang_productname?>" class="form-control" required="required">
                                 <p></p>
 
-                                ວັນໝົດອາຍຸ
+                                <!-- ວັນໝົດອາຍຸ
                                 <input type="text" name="product_date_end" id="product_date_end2"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
 
 
                                 <?=$lang_productunit?>
@@ -1086,10 +1119,6 @@ app.controller('Index', function($scope, $http, $location) {
 
     });
 
-
-
-
-
     $scope.product_unit_id = '0';
 
     $scope.product_category_id = '0';
@@ -1266,74 +1295,125 @@ app.controller('Index', function($scope, $http, $location) {
 
 
 
-    //start ค้นหาสินค้าทั้งหมด
-    $scope.searchtextarray = [];
-    $scope.searchtextarray2 = [];
+    // //start ค้นหาสินค้าทั้งหมด
+    // $scope.searchtextarray = [];
+    // $scope.searchtextarray2 = [];
+    // $scope.pregetlist = function() {
+
+    //     if ($scope.timeoutPromise) {
+    //         clearTimeout($scope.timeoutPromise);
+    //     }
+
+
+    //     console.log("Search text:", $scope.searchtext);
+    //     $scope.searchtextarray.push($scope.searchtext);
+    //     setTimeout(function() {
+    //         $scope.searchtextarray2.push($scope.searchtext);
+    //         if ($scope.searchtextarray2[0] == $scope.searchtextarray[$scope.searchtextarray.length -
+    //                 1]) {
+    //             $scope.getlist();
+    //         }
+    //         $scope.searchtextarray = [];
+    //         $scope.searchtextarray2 = [];
+    //     }, 1000);
+    // }
+    // //end ค้นหาสินค้าทั้งหมด
+
+
+    // ================== Initialization ==================
+    $scope.searchtext = ''; // user input, set once
+    $scope.selectthispage = '1'; // current page
+    $scope.perpage = '10'; // items per page
+    $scope.showAllImages = false; // global toggle for images
+    $scope.showImages = false; // whether to load images for list
+    $scope.timeoutPromise = null; // debounce timer
+    $scope.list = []; // product list
+    $scope.pageall = 0; // total pages
+    $scope.numall = 0; // total items
+    $scope.pagealladd = []; // page array for dropdown
+
+    // ================== Debounced Search ==================
     $scope.pregetlist = function() {
-        $scope.searchtextarray.push($scope.searchtext);
-        setTimeout(function() {
-            $scope.searchtextarray2.push($scope.searchtext);
-            if ($scope.searchtextarray2[0] == $scope.searchtextarray[$scope.searchtextarray.length -
-                    1]) {
-                $scope.getlist();
-            }
-            $scope.searchtextarray = [];
-            $scope.searchtextarray2 = [];
-        }, 1000);
-    }
-    //end ค้นหาสินค้าทั้งหมด
+        if ($scope.timeoutPromise) clearTimeout($scope.timeoutPromise);
 
+        $scope.timeoutPromise = setTimeout(function() {
+            $scope.$apply(function() {
+                // Set showImages = true to fetch images
+                $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage,
+                    true);
 
+                // console.log('i am pregetlist.. ', $scope.pregetlist);
+            });
+        }, 300); // debounce 0.3s
+    };
 
+    // ================== Toggle All Images ==================
+    $scope.toggleAllImages = function() {
+        $scope.showAllImages = !$scope.showAllImages;
 
-
-
-
-
-    $scope.searchtext = '';
-    $scope.selectthispage = '1';
-    $scope.perpage = '10';
-    $scope.getlist = function(searchtext, page, perpage) {
-        $scope.list = false;
-        if (!searchtext) {
-            searchtext = '';
+        // Reset row-level image flags if hiding all
+        if (!$scope.showAllImages && $scope.list.length) {
+            $scope.list.forEach(function(x) {
+                x.showImage = false;
+            });
         }
 
+        // Reload list with updated image flag
+        $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage, $scope.showAllImages);
 
-        if (!page) {
-            var page = '1';
-        }
+        console.log('i am showAllImages...', $scope.getlist);
+    };
 
-        if (!perpage) {
-            var perpage = '10';
-        }
+    // ================== Toggle Row Image ==================
+    $scope.toggleRowImage = function(row) {
+        row.showImage = !row.showImage;
+    };
 
-        $http.post("Productlist/get", {
+    // ================== Unified getlist Function ==================
+    $scope.getlist = function(searchtext, page, perpage, loadImages) {
+        $scope.searchtext = searchtext || $scope.searchtext;
+        $scope.selectthispage = page || $scope.selectthispage;
+        $scope.perpage = perpage || $scope.perpage;
+        $scope.showImages = loadImages || false;
+
+        $scope.list = false; // reset list while loading
+
+        $http.post("Productlist/Get", {
             searchtext: $scope.searchtext,
             page: $scope.selectthispage,
-            perpage: $scope.perpage
+            perpage: $scope.perpage,
+            showImages: $scope.showImages
         }).success(function(data) {
-            $scope.list = data.list;
-            $scope.pageall = data.pageall;
-            $scope.numall = data.numall;
+            // console.log('data product list.', data);
+            $scope.list = data.list || [];
+            $scope.pageall = data.pageall || 0;
+            $scope.numall = data.numall || 0;
 
+            // Initialize per-row showImage flags
+            $scope.list.forEach(function(x) {
+                x.showImage = false;
+            });
+
+            // Build pagination array for dropdown
             $scope.pagealladd = [];
-            for (i = 1; i <= $scope.pageall; i++) {
+            for (var i = 1; i <= $scope.pageall; i++) {
                 $scope.pagealladd.push({
                     a: i
                 });
             }
-
-            //$scope.selectpage = page;
-            //$scope.selectthispage = $scope.page;
+        }).error(function(err) {
+            console.error("Failed to fetch product list:", err);
+            $scope.list = [];
+            $scope.pageall = 0;
+            $scope.numall = 0;
+            $scope.pagealladd = [];
         });
     };
-    $scope.getlist('', '1');
+
+    $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage, $scope.showAllImages);
 
 
-
-
-
+    // ===============================================================
     $scope.Saveproduct = function(product_code, product_name, product_price, product_pricebase,
         product_category_id, supplier_id, product_score) {
         $http.post("Productlist/Add", {
@@ -1373,8 +1453,9 @@ app.controller('Index', function($scope, $http, $location) {
                 contentType: false,
                 processData: false,
                 success: function(data) {
+                    console.log(data);
                     if (data == '1') {
-                        toastr.warning('ມີສິນຄ້ານີ້ແລ້ວ');
+                        toastr.warning('ມີສິນຄ້າບາໂຄດນີ້ແລ້ວ');
                         $('#Openeditloading').modal('hide');
                     } else {
                         toastr.success('<?php echo $lang_success;?>');
@@ -1567,6 +1648,7 @@ app.controller('Index', function($scope, $http, $location) {
                 product_stock_num_change: $scope.product_stock_num_change,
                 des: $scope.log_edit_des
             }).success(function(data) {
+                // console.log('Button Updatematok', product_stock_num);
                 $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage);
                 $('#updatematmodal').modal('hide');
             });

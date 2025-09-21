@@ -48,12 +48,14 @@ $data = json_decode(file_get_contents("php://input"),true);
 if(!isset($data)){
 exit();
 }
-echo  $this->productlist_model->Check_productlist_foranyone($data);
+$result = $this->productlist_model->Check_productlist_foranyone($data);
+
+ // Always return JSON
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        "list" => $result
+    ], JSON_UNESCAPED_UNICODE);
 
 }
 
-
-
-
-
-	}
+}

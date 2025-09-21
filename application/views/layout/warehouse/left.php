@@ -18,6 +18,10 @@ a {
 
 
             <ul class="nav nav-pills">
+                <li style="width: 100%;" <?php if($tab === 'productlist'){ echo 'class="active"';} ?>><a
+                        href="<?php echo $base_url; ?>/warehouse/productlist"><span class="glyphicon glyphicon-home"
+                            aria-hidden="true"></span>
+                        <?=$lang_productliststock?> </a></li>
 
                 <li style="width: 100%;" <?php if($tab === 'importproduct'){ echo 'class="active"';} ?>><a
                         href="<?php echo $base_url; ?>/warehouse/importproduct"><span class="glyphicon glyphicon-upload"
@@ -78,10 +82,7 @@ a {
             <ul class="nav nav-pills">
 
 
-                <li style="width: 100%;" <?php if($tab === 'productlist'){ echo 'class="active"';} ?>><a
-                        href="<?php echo $base_url; ?>/warehouse/productlist"><span class="glyphicon glyphicon-home"
-                            aria-hidden="true"></span>
-                        <?=$lang_productliststock?> </a></li>
+
 
                 <li style="width: 100%;" <?php if($tab === 'productunit'){ echo 'class="active"';} ?>><a
                         href="<?php echo $base_url; ?>/warehouse/productunit"><span class="glyphicon glyphicon-th"

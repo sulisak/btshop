@@ -19,8 +19,8 @@ class Productlist_model extends CI_Model {
 $data2['product_image'] = $data['product_image'];
 $data2['product_code'] = $data['product_code'];
 $data2['product_name'] = $data['product_name'];
-$data2['product_date_end'] = $data['product_date_end'];
-$data2['product_date_end2'] = $data['product_date_end2'];
+// $data2['product_date_end'] = $data['product_date_end'];
+// $data2['product_date_end2'] = $data['product_date_end2'];
 $data2['product_des'] = $data['product_des'];
 $data2['product_price'] = $data['product_price'];
 $data2['product_wholesale_price'] = $data['product_wholesale_price'];
@@ -302,6 +302,7 @@ $this->db->update("wh_product_list", $data2);
 
 
 
+         
 //            public function Get($data)
 //         {
 
@@ -425,19 +426,59 @@ $this->db->update("wh_product_list", $data2);
 // return $json;
 
 //         }
-         public function Get($data)
+       
+// update get product image faster ========================================
+public function Get($data)
 {
     $perpage = (int)$data['perpage'];
     $page = !empty($data['page']) ? (int)$data['page'] : 1;
     $start = ($page - 1) * $perpage;
 
-    // sanitize search text
     $search = $this->db->escape_like_str($data['searchtext']);
     $branch_id = $_SESSION['branch_id'];
 
-    // ------------------------
-    // Count query ($querynum)
-    // ------------------------
+    
+   // Determine if we should include product_image
+$showImages = isset($data['showImages']) && $data['showImages'] ? true : false;
+
+    // ------------------- Build SELECT fields dynamically -------------------
+    $selectFields = "
+        wl.product_id,
+        wl.product_code,
+        wl.product_name,
+        wl.have_vat,
+        wl.popup_pricenum,
+        wl.product_date_end,
+        wl.product_des,
+        wl.product_price,
+        wl.product_wholesale_price,
+        wl.product_score,
+        wl.product_pricebase,
+        IFNULL(s.product_stock_num, 0) AS product_stock_num,
+        IFNULL(sn_count.csn, 0) AS csn,
+        wl.product_price_value,
+        wl.product_category_id,
+        wc.product_category_name,
+        wl.supplier_id,
+        sp.supplier_name,
+        wl.count_stock,
+        wl.zone_id,
+        wl.is_course,
+        wl.product_weight,
+        z.zone_name,
+        wl.product_unit_id,
+        IFNULL(wu.product_unit_name, '') AS product_unit_name,
+        wl.product_num_min,
+        (SELECT COUNT(*) FROM wh_product_other_list sd WHERE sd.product_id = wl.product_id) AS product_num_other2,
+        (SELECT COUNT(*) FROM wh_product_relation_list sd WHERE sd.product_id = wl.product_id) AS product_num_other
+    ";
+
+    // Prepend product_image if requested
+    if ($showImages) {
+        $selectFields = "wl.product_image, " . $selectFields;
+    }
+
+    // ------------------- Count total rows -------------------
     $querynum = $this->db->query("
         SELECT COUNT(DISTINCT wl.product_id) AS total
         FROM wh_product_list wl
@@ -445,51 +486,19 @@ $this->db->update("wh_product_list", $data2);
         LEFT JOIN supplier sp ON sp.supplier_id = wl.supplier_id
         LEFT JOIN zone z ON z.zone_id = wl.zone_id
         LEFT JOIN serial_number sn ON sn.product_id = wl.product_id
-        WHERE wl.product_code LIKE '%{$search}%'
-           OR wl.product_name LIKE '%{$search}%'
-           OR wl.product_des LIKE '%{$search}%'
-           OR wc.product_category_name LIKE '%{$search}%'
-           OR z.zone_name LIKE '%{$search}%'
-           OR sp.supplier_name LIKE '%{$search}%'
-           OR sn.sn_code LIKE '%{$search}%'
+        WHERE wl.product_code LIKE '{$search}%'
+           OR wl.product_name LIKE '{$search}%'
+           OR wl.product_des LIKE '{$search}%'
+           OR wc.product_category_name LIKE '{$search}%'
+           OR z.zone_name LIKE '{$search}%'
+           OR sp.supplier_name LIKE '{$search}%'
+           OR sn.sn_code LIKE '{$search}%'
     ");
-
     $num_rows = $querynum->row()->total;
 
-    // ------------------------
-    // Data query ($query)
-    // ------------------------
+    // ------------------- Fetch paginated data -------------------
     $query = $this->db->query("
-        SELECT
-            wl.product_id,
-            wl.product_code,
-            wl.product_name,
-            wl.have_vat,
-            wl.popup_pricenum,
-            wl.product_date_end,
-            wl.product_des,
-            wl.product_image,
-            wl.product_price,
-            wl.product_wholesale_price,
-            wl.product_score,
-            wl.product_pricebase,
-            IFNULL(s.product_stock_num, 0) AS product_stock_num,
-            IFNULL(sn_count.csn, 0) AS csn,
-            wl.product_price_value,
-            wl.product_category_id,
-            wc.product_category_name,
-            wl.supplier_id,
-            sp.supplier_name,
-            wl.count_stock,
-            wl.zone_id,
-            wl.is_course,
-            wl.product_weight,
-            z.zone_name,
-            wl.product_unit_id,
-            IFNULL(wu.product_unit_name, '') AS product_unit_name,
-            wl.product_num_min,
-            (SELECT COUNT(*) FROM wh_product_other_list sd WHERE sd.product_id = wl.product_id) AS product_num_other2,
-            (SELECT COUNT(*) FROM wh_product_relation_list sd WHERE sd.product_id = wl.product_id) AS product_num_other
+        SELECT $selectFields
         FROM wh_product_list wl
         LEFT JOIN wh_product_category wc ON wc.product_category_id = wl.product_category_id
         LEFT JOIN wh_product_unit wu ON wu.product_unit_id = wl.product_unit_id
@@ -503,35 +512,32 @@ $this->db->update("wh_product_list", $data2);
             GROUP BY product_id
         ) sn_count ON sn_count.product_id = wl.product_id
         LEFT JOIN serial_number sn ON sn.product_id = wl.product_id
-        WHERE wl.product_code LIKE '%{$search}%'
-           OR wl.product_name LIKE '%{$search}%'
-           OR wl.product_des LIKE '%{$search}%'
-           OR wc.product_category_name LIKE '%{$search}%'
-           OR z.zone_name LIKE '%{$search}%'
-           OR sp.supplier_name LIKE '%{$search}%'
-           OR sn.sn_code LIKE '%{$search}%'
+        WHERE wl.product_code LIKE '{$search}%'
+           OR wl.product_name LIKE '{$search}%'
+           OR wl.product_des LIKE '{$search}%'
+           OR wc.product_category_name LIKE '{$search}%'
+           OR z.zone_name LIKE '{$search}%'
+           OR sp.supplier_name LIKE '{$search}%'
+           OR sn.sn_code LIKE '{$search}%'
         GROUP BY wl.product_id
         ORDER BY wl.product_id DESC
         LIMIT {$start}, {$perpage}
     ");
 
-    // ------------------------
-    // Build JSON response
-    // ------------------------
+    // ------------------- Build JSON response -------------------
     $encode_data = json_encode($query->result(), JSON_UNESCAPED_UNICODE);
     $pageall = ceil($num_rows / $perpage);
 
-    $json = '{
-        "list": '.$encode_data.',
-        "numall": '.$num_rows.',
-        "perpage": '.$perpage.',
-        "pageall": '.$pageall.'
-    }';
+    $json = json_encode([
+        "list"    => $query->result(),
+        "numall"  => $num_rows,
+        "perpage" => $perpage,
+        "pageall" => $pageall
+    ], JSON_UNESCAPED_UNICODE);
 
     return $json;
 }
-
-
+// update get product image faster ========================================
 
 
 
@@ -617,7 +623,7 @@ wrl.prl_ID,
 wrl.product_name_relation,
 wrl.product_num_relation,
 wrl.product_unit_relation,
-wrl.product_type_relation
+wrl.	product_id_relation
      FROM wh_product_relation_list as wrl
      LEFT JOIN wh_product_list as wl on wl.product_id=wrl.product_id
      WHERE wrl.product_id="'.$data['product_id'].'"
@@ -712,34 +718,57 @@ $query1 = $this->db->query('DELETE FROM wh_product_relation_list
 
 
 
+// public function Check_productlist_foranyone($data)
+// {
+
+// $query = $this->db->query('SELECT *
+// FROM wh_product_list as wl
+// LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
+// WHERE wl.product_code LIKE "%'.$data['searchtext'].'%"
+// OR wl.product_name LIKE "%'.$data['searchtext'].'%"
+// ');
+
+// $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+
+// return $encode_data;
+
+// }
+
+// update Check_productlist_foranyone =======================
 public function Check_productlist_foranyone($data)
 {
+    $searchtext = isset($data['searchtext']) ? $data['searchtext'] : '';
+    $search = $this->db->escape_like_str($searchtext);
+    $branch_id = $_SESSION['branch_id'];
 
-$query = $this->db->query('SELECT *
-FROM wh_product_list as wl
-LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
-WHERE wl.product_code LIKE "%'.$data['searchtext'].'%"
-OR wl.product_name LIKE "%'.$data['searchtext'].'%"
-');
-
-$encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
-
-return $encode_data;
-
+    $query = $this->db->query("
+        SELECT wl.product_id, wl.product_code, wl.product_name, wl.product_des,
+               wl.product_price, wl.product_wholesale_price, wl.product_pricebase,
+               IFNULL(s.product_stock_num,0) as product_stock_num,
+               z.zone_name, wc.product_category_name, sp.supplier_name,
+               IFNULL(wu.product_unit_name,'') as product_unit_name
+        FROM wh_product_list wl
+        LEFT JOIN wh_product_category wc ON wc.product_category_id = wl.product_category_id
+        LEFT JOIN wh_product_unit wu ON wu.product_unit_id = wl.product_unit_id
+        LEFT JOIN supplier sp ON sp.supplier_id = wl.supplier_id
+        LEFT JOIN zone z ON z.zone_id = wl.zone_id
+        LEFT JOIN stock s ON s.product_id = wl.product_id AND s.branch_id = '{$branch_id}'
+        WHERE wl.product_code LIKE '%{$search}%'
+           OR wl.product_name LIKE '%{$search}%'
+           OR wl.product_des LIKE '%{$search}%'
+           OR wc.product_category_name LIKE '%{$search}%'
+           OR z.zone_name LIKE '%{$search}%'
+           OR sp.supplier_name LIKE '%{$search}%'
+        GROUP BY wl.product_id
+        ORDER BY wl.product_id DESC
+    ");
+    return $query->result();
 }
 
 
 
 
-
-
-
-
-
-
-
-
-
+// update Check_productlist_foranyone =======================
 
         public function Searchpot2($data)
      {

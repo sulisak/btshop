@@ -116,8 +116,8 @@ $data['product_code'] =  $_POST['product_code'];
 }
 
 $data['product_name'] = $_POST['product_name'];
-$data['product_date_end'] = $_POST['product_date_end'];
-$data['product_date_end2'] = strtotime($_POST['product_date_end']);
+// $data['product_date_end'] = $_POST['product_date_end'];
+// $data['product_date_end2'] = strtotime($_POST['product_date_end']);
 $data['product_des'] = $_POST['product_des'];
 $data['product_price'] = $_POST['product_price'];
 $data['product_wholesale_price'] = $_POST['product_wholesale_price'];
@@ -283,15 +283,7 @@ $data3['product_category_id'] = $data['product_category_id'];
 }
 
 
-
-
-
-
-
 }
-
-
-
 
     function Get()
     {
@@ -304,8 +296,20 @@ exit();
 echo  $this->productlist_model->Get($data);
 
 }
+// add new =========================
+    function Getnopic()
+    {
 
 
+$data = json_decode(file_get_contents("php://input"),true);
+if(!isset($data)){
+exit();
+}
+echo  $this->productlist_model->Getnopic($data);
+
+}
+
+// add new ======================
     function Updatenopic()
     {
 

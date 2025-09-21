@@ -295,11 +295,6 @@ body {
 
 
 
-
-
-
-
-
         <div class="col-md-8">
 
 
@@ -309,6 +304,11 @@ body {
                 <?=$lang_salepic?>
             </a>
 
+            <a href="<?php echo $base_url;?>/warehouse/productlist" class="btn btn-warning"
+                style="font-size: 25px;font-weight: bold;width: 250px;height:170px;">
+                <span class="glyphicon glyphicon-copy" aria-hidden="true" style="font-size: 80px;"></span><br />
+                <?php echo $lang_db_8;?>
+            </a>
 
 
 
@@ -331,11 +331,6 @@ body {
 
 
 
-            <a href="<?php echo $base_url;?>/warehouse/productlist" class="btn btn-primary"
-                style="font-size: 25px;font-weight: bold;width: 250px;height:170px;">
-                <span class="glyphicon glyphicon-home" aria-hidden="true" style="font-size: 80px;"></span><br />
-                <?php echo $lang_db_8;?>
-            </a>
 
 
 
