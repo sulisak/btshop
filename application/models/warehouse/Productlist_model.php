@@ -157,8 +157,8 @@ $data['product_code'] = rand(100000,999999);
 $data2['product_image'] = '';
 $data2['product_code'] = $data['product_code'];
 $data2['product_name'] = $data['product_name'];
-$data2['product_date_end'] = '';
-$data2['product_date_end2'] = '';
+// $data2['product_date_end'] = '';
+// $data2['product_date_end2'] = '';
 $data2['product_des'] = '';
 $data2['product_price'] = $data['product_price'];
 $data2['product_wholesale_price'] = '';
@@ -190,8 +190,8 @@ $this->db->insert("wh_product_list", $data2);
 
 $data2['product_code'] = $data['product_code'];
 $data2['product_name'] = $data['product_name'];
-$data2['product_date_end'] = $data['product_date_end'];
-$data2['product_date_end2'] = $data['product_date_end2'];
+// $data2['product_date_end'] = $data['product_date_end'];
+// $data2['product_date_end2'] = $data['product_date_end2'];
 $data2['product_des'] = $data['product_des'];
 $data2['product_image'] = $data['product_image'];
 $data2['product_price'] = $data['product_price'];
@@ -448,7 +448,7 @@ $showImages = isset($data['showImages']) && $data['showImages'] ? true : false;
         wl.product_name,
         wl.have_vat,
         wl.popup_pricenum,
-        wl.product_date_end,
+  
         wl.product_des,
         wl.product_price,
         wl.product_wholesale_price,

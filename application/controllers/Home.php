@@ -97,6 +97,13 @@ header("Location: ".$_SERVER['HTTP_REFERER']."");
   echo $this->home_model->Saletoday();
 
   }
+
+  function Getstockless()
+  {
+
+  echo $this->home_model->Getstockless();
+
+  }
   
   
   

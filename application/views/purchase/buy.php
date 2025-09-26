@@ -513,7 +513,7 @@
                                                 ng-model="x.stock_min" ng-change="Savesettingproduct(x,'1')"
                                                 class="form-control">
                                             <span ng-if="savesettingok_1=='1' && x.product_id==product_id_setting"
-                                                style="color:green;">บันทึกสำเร็จ</span>
+                                                style="color:green;">ບັນທຶກສຳເລັດ</span>
                                         </td>
 
                                         <td style="text-align:center;">
@@ -521,7 +521,7 @@
                                                 ng-model="x.num_buy" ng-change="Savesettingproduct(x,'2')"
                                                 class="form-control">
                                             <span ng-if="savesettingok_2=='1' && x.product_id==product_id_setting"
-                                                style="color:green;">บันทึกสำเร็จ</span>
+                                                style="color:green;">ບັນທຶກສຳເລັດ</span>
                                         </td>
 
                                         <td style="text-align:left;">{{x.product_unit_name}}</td>
@@ -1113,7 +1113,7 @@
 
                             <center>
                                 <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal"
-                                    aria-hidden="true">ปิดหน้าต่าง</button>
+                                    aria-hidden="true">ປິດໜ້າຕ່າງ</button>
                             </center>
 
                         </div>

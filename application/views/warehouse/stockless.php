@@ -150,7 +150,7 @@ app.controller('Index', function($scope, $http, $location) {
             perpage: perpage
         }).success(function(data) {
 
-            console.log("Raw response:", data); //  log everything
+            console.log("Stock view..:", data); //  log everything
 
             $scope.list = data.list;
             $scope.pageall = data.pageall;
@@ -168,7 +168,6 @@ app.controller('Index', function($scope, $http, $location) {
         });
     };
     $scope.getlist('', '1');
-
 
 });
 </script>

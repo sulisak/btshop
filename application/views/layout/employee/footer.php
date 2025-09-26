@@ -102,7 +102,7 @@ if(time() > strtotime($_SESSION['owner_end_time'])){
 
 
 <a href="https://www.facebook.com/cus2merpage" target="_blank" style="color:#f5eeee;">
-Power By  C2MPOS
+Power By  c2mpos
 </a>
 
 </span>

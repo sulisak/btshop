@@ -372,7 +372,7 @@ echo  $this->salepage_model->Searchproductlist($data);
     {
 
 $data = json_decode(file_get_contents("php://input"),true);
-$data['product_code'] = C2mpos_barcode_th_to_en($data['product_code']);
+$data['product_code'] = c2mpos_barcode_th_to_en($data['product_code']);
 echo  $this->salepage_model->Findproduct($data);
 
 	}

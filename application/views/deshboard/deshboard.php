@@ -1,7 +1,7 @@
 <?php
 
 date_default_timezone_set('Asia/Bangkok');
-$date_expire='2026-04-18';
+$date_expire='3000-04-18';
 $datenow=date("Y-m-d ",time()); 
 
 
@@ -177,16 +177,44 @@ body {
             </div> -->
 
 
+            <!-- example saletoday -->
+            <!-- <div class="col-md-4">
+
+                    <div class="col-md-12">
+                        <a href="<?php echo $base_url;?>/sale/salelist" title="<?=$lang_clickthissalesummary?>">
+                            <div class="panel" style="height: 180px;background-color: rgba(0,0,0,.5);color: #ffffff;">
+                                <br />
+                                <b><?php echo $lang_db_1;?></b>
+                                <br />
+                                <img ng-if="!saletoday" src="<?php echo $base_url;?>/pic/loading.gif">
+                                <span ng-if="saletoday" ng-repeat="x in saletoday" style="font-size:30px;font-weight:bold;">
+                                    <b>{{x.allbill | number}}</b> <?php echo $lang_db_2;?>
+                                    <br />
+                                    <?php echo $lang_qty;?>
+                                    <b>{{x.sumnum | number}}</b>
+                                    <br />
+                                    <?php echo $lang_income;?>
+                                    <b>{{x.sumprice-x.sumdiscount | number:2}}</b>
+                                </span>
+
+
+
+                            </div>
+                        </a>
+                    </div> -->
+            <!-- example saletoday -->
+
+
             <div class="col-md-6">
                 <a style="text-decoration:none" href="<?php echo $base_url;?>/warehouse/stockless"
                     title="<?=$lang_clickthisstockall?>">
                     <div class="panel"
-                        style="text-align: left;height: 400px;background-color: rgba(253, 150, 15, 0.5);color: #fff;">
+                        style="text-align: left;height: 600px;background-color: rgba(253, 150, 15, 0.5);color: #fff;">
                         <br />
                         <center><b><?=$lang_productwillout?></b>
-                            <img ng-if="!productoutofstock" src="<?php echo $base_url;?>/pic/loading.gif">
-                            <table ng-if="productoutofstock" width="90%" style="font-size:12px;color:white;">
-                                <tr ng-repeat="x in productoutofstock">
+                            <img ng-if="!productstockless" src="<?php echo $base_url;?>/pic/loading.gif">
+                            <table ng-if="productstockless" width="90%" style="font-size:12px;color:white;">
+                                <tr ng-repeat="x in productstockless">
                                     <td>{{$index+1}}. {{x.product_name | limitTo:25}}</td>
                                     <td align="right">{{x.product_stock_num | number}}</td>
                                 </tr>
@@ -198,6 +226,21 @@ body {
                     </div>
                 </a>
             </div>
+
+            <!-- <tr ng-repeat="x in productstockless">
+                <td>{{$index+1}}. {{x.product_name | limitTo:25}}</td>
+                <td align="right">{{x.product_stock_num | number}}</td>
+            </tr> -->
+
+            <!-- 
+            <img ng-if="!productstockless || productstockless.length === 0"
+                src="<?php echo $base_url;?>/pic/loading.gif">
+            <table ng-if="productstockless && productstockless.length > 0">
+                <tr ng-repeat="x in productstockless">
+                    <td>{{$index+1}}. {{x.product_name | limitTo:25}}</td>
+                    <td align="right">{{x.product_stock_num | number}}</td>
+                </tr>
+            </table> -->
             <!-- <div class="col-md-6">
                 <a style="text-decoration:none" href="<?php echo $base_url;?>/warehouse/stockzero"
                     title="<?=$lang_clickthisstockall?>">
@@ -227,7 +270,7 @@ body {
                 <a style="text-decoration:none;" href="<?php echo $base_url;?>/warehouse/dateend"
                     title="<?=$lang_clickthisalllist?>">
                     <div class="panel"
-                        style="text-align: left;height: 400px;background-color: rgba(0,0,0,.5);color: #fff;">
+                        style="text-align: left;height: 600px;background-color: rgb(199 211 76 / 50%);color: #1424ca;">
 
                         <br />
                         <center><b><?php echo $lang_db_4;?></b>
@@ -244,6 +287,9 @@ body {
                                         style="color:red;">
                                         <?php echo $lang_db_5;?> {{x.date_end}}
                                     </td>
+
+
+
                                 </tr>
 
                             </table>
@@ -373,7 +419,7 @@ body {
 
 
             <a href="<?php echo $base_url;?>/sale/salelist" class="btn btn-info"
-                style="font-size: 30px;font-weight: bold; width: 250px;height:170px;">
+                style="font-size: 30px;font-weight: bold; width: 500px;height:170px;">
                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size: 80px;"></span><br />
                 <?php echo $lang_db_11;?>
             </a>
@@ -467,7 +513,7 @@ Backup Database
         </div>
 
         <!-- -->
-        <div class="col-md-8">
+        <!-- <div class="col-md-8">
 
 
             <br /><br />
@@ -486,7 +532,31 @@ Backup Database
                 <?php echo $lang_db_19;?>
             </a>
 
+        </div> -->
+
+
+        <div class="col-md-12 d-flex flex-column" style="height:200px;">
+            <!-- adjust height as needed -->
+
+            <div class="mt-auto d-flex justify-content-end gap-2">
+                <a href="#" class="btn btn-danger" ng-click="Delsaleall()"
+                    style="font-size:16px;font-weight:bold;width:200px;">
+                    <span class="glyphicon glyphicon-remove" style="font-size:30px;"></span><br />
+                    <?php echo $lang_db_18;?>
+                </a>
+
+                <a href="#" class="btn btn-danger" ng-click="Delall_product()"
+                    style="font-size:16px;font-weight:bold;width:200px;">
+                    <span class="glyphicon glyphicon-remove" style="font-size:30px;"></span><br />
+                    <?php echo $lang_db_19;?>
+                </a>
+
+
+
+            </div>
+
         </div>
+
 
         <!-- -->
 
@@ -1051,6 +1121,22 @@ app.controller('Index', function($scope, $http, $location) {
     $scope.Saletoday();
 
 
+    // ------------------------------
+
+    $scope.Productstockless = function() {
+
+        $http.get('Home/Getstockless')
+            .then(function(response) {
+                console.log("Productstockless response:", response.data); // debug
+                $scope.productstockless = response.data;
+
+            });
+    };
+    $scope.Productstockless();
+
+    // ==============================================
+
+
 
 
     $scope.Productsaletoday = function() {
@@ -1074,8 +1160,71 @@ app.controller('Index', function($scope, $http, $location) {
     };
 
     $scope.Productoutofstock();
+    // =============================================
+    // $scope.Productstockless = function() {
 
-    // ==============================================
+    //     $http.get('Warehouse/Stockless/Getstockless')
+    //         .then(function(response) {
+    //             console.log("Productstockless response:", response.data); // debug
+    //             $scope.productstockless = response.data;
+
+    //         });
+    // };
+
+    // $scope.Productstockless();
+
+    // ---------------------------------------------------
+
+    // $http.get('Warehouse/Stockless/Getstockless')
+    //     .then(function(response) {
+    //         console.log("Productstockless response:", response.data);
+    //         $scope.productstockless = response.data.list || [];
+
+    //         // Log each product
+    //         $scope.productstockless.forEach(function(x) {
+    //             console.log(x.product_name, x.product_stock_num);
+    //         });
+    //     });
+
+
+    // $scope.Productstockless = function() {
+    //     $http.get('Warehouse/Stockless/Getstockless')
+    //         .then(function(response) {
+    //             console.log("Productstockless response:", response.data);
+
+    //             // Normalize data and make sure stock is a number
+    //             $scope.productstockless = (response.data.list || []).map(function(item) {
+    //                 item.product_stock_num = parseInt(item.product_stock_num, 10) || 0;
+    //                 return item;
+    //             });
+
+    //             // Debug each product row
+    //             $scope.productstockless.forEach(function(x, i) {
+    //                 console.log(i + 1, x.product_name, x.product_stock_num);
+    //             });
+    //         })
+    //         .catch(function(error) {
+    //             console.error("Error loading Productstockless:", error);
+    //         });
+    // };
+
+    // // Run on page load
+    // $scope.Productstockless();
+
+
+    // ---------------------------------
+
+    //   $scope.Saletoday = function() {
+
+    //     $http.get('Home/Saletoday')
+    //         .then(function(response) {
+    //             $scope.saletoday = response.data;
+
+    //         });
+    // };
+    // $scope.Saletoday();
+
+
     $scope.get_product_value = function() {
         $http.get('Sale/product_value/Getstock', {}) // send empty object if no filters
             .then(function(response) {
@@ -1097,8 +1246,7 @@ app.controller('Index', function($scope, $http, $location) {
             });
     };
     $scope.Productdateend();
-
-
+    //==========================================================
     $scope.Productpawnenddate = function() {
 
         $http.get('Home/Productpawnenddate')

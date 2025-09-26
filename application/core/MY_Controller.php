@@ -677,7 +677,7 @@ $headers .= "From: noreply@gmail.com\r\n";
   
   
   
-public function C2mpos_barcode_th_to_en($code){
+public function c2mpos_barcode_th_to_en($code){
  
  if (!preg_match('/[^A-Za-z0-9-]/', $code)) // check text en
 {

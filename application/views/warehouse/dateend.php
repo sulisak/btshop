@@ -19,7 +19,8 @@
             <div class="form-inline">
                 <div class="form-group">
                     <input type="text" ng-model="searchtext" ng-change="getlist(searchtext,'1')" class="form-control"
-                        placeholder="<?=$lang_search?>  <?=$lang_barcode?> Lot.No, No Import" style="width: 300px;">
+                        placeholder="<?=$lang_search?>  <?=$lang_barcode?>ເລກ Lot, ເລກນຳເຂົ້າສິນຄ້າ"
+                        style="width: 300px;">
                 </div>
 
                 <!-- <div class="form-group">
@@ -49,12 +50,12 @@
                             <th style="text-align: center;"><?=$lang_productname?></th>
                             <th style="text-align: center;"><?=$lang_num?></th>
 
-                            <th style="text-align: center;">Lot.No</th>
+                            <th style="text-align: center;"> ເລກ Lot</th>
 
                             <th style="text-align: center;"><?=$lang_dateend?></th>
 
                             <th style="text-align: center;"><?=$lang_dategetin?></th>
-                            <th style="text-align: center;">No.Import</th>
+                            <th style="text-align: center;">ເລກນຳເຂົ້າສິນຄ້າ</th>
                             <th style="text-align: center;"><?php echo $lang_branch;?></th>
                             <th style="text-align: center;width: 20px;" ng-show="showdeletcbut">
                                 <?=$lang_goout?></th>

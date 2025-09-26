@@ -22,7 +22,7 @@ $data['lang_login'] = 'ເຂົ້າສູ່ລະບົບ';
 $data['lang_logout'] = 'ອອກຈາກລະບົບ';
 $data['lang_save'] = 'ບັນທຶກ';
 
-$data['lang_possystem'] = 'POS ລະບົບຂາຍໜ້າຮ້ານ';
+$data['lang_c2mpostem'] = 'POS ລະບົບຂາຍໜ້າຮ້ານ';
 $data['lang_foodsystem'] = 'FOOD ລະບົບຮ້ານອາຫານ';
 $data['lang_apartmentsystem'] = 'APARTMENT ລະບົບບ້ານພັກ';
 

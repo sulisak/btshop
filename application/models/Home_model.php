@@ -202,10 +202,43 @@ $query = $this->db->query('SELECT
     $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
      return $encode_data;
         }
+          public function Productstockless()
+        {
+
+$query = $this->db->query('SELECT
+    wl.product_name,
+	s.product_stock_num
+    FROM stock as s
+	LEFT JOIN wh_product_list as wl on s.product_id=wl.product_id
+    WHERE s.product_stock_num BETWEEN 1 AND 3
+	GROUP BY s.product_id
+    ORDER BY s.product_stock_num+0 ASC  LIMIT 15');
+    $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+     return $encode_data;
+        }
 
 
 
-         public function Productdateend()
+//          public function Productdateend()
+//         {
+
+//         $query = $this->db->query('SELECT
+// 		wl.product_name,
+// 		wd.date_end,
+//         wd.date_end2
+//         FROM wh_importproduct_detail as wd
+// 		LEFT JOIN wh_product_list as wl on wl.product_id=wd.product_id
+//         WHERE wd.date_end != "" AND wd.status="0" 
+        
+//         AND wd.branch_id="'.$_SESSION['branch_id'].'"
+//         ORDER BY wd.date_end2 ASC  LIMIT 15  ');
+//         $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+//  return $encode_data;
+//         }
+         
+
+
+ public function Productdateend()
         {
 
         $query = $this->db->query('SELECT
@@ -214,7 +247,16 @@ $query = $this->db->query('SELECT
         wd.date_end2
         FROM wh_importproduct_detail as wd
 		LEFT JOIN wh_product_list as wl on wl.product_id=wd.product_id
-        WHERE wd.date_end != "" AND wd.status="0" AND wd.branch_id="'.$_SESSION['branch_id'].'"
+        WHERE 
+          (
+                    STR_TO_DATE(wd.date_end, "%d/%m/%Y") < CURDATE()
+                    OR STR_TO_DATE(wd.date_end, "%d-%m-%Y") < CURDATE()
+           )
+  AND wd.date_end NOT IN ("0", "0000-00-00", "")
+        
+         AND wd.status="0" 
+        
+        AND wd.branch_id="'.$_SESSION['branch_id'].'"
         ORDER BY wd.date_end2 ASC  LIMIT 15  ');
         $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
  return $encode_data;
@@ -252,7 +294,72 @@ return $query->result_array();
         }
 
 
+// ==================== add more =========================
+
+         public function Getstockless()
+        {
+
+// In Stockless view =================
+$query = $this->db->query('SELECT
+    wl.product_id as product_id,
+    wl.product_code as product_code,
+    wl.product_name as product_name,
+    wl.product_price as product_price,
+    wl.product_wholesale_price as product_wholesale_price,
+    wl.product_price_discount as product_price_discount,
+	s.product_stock_num as product_stock_num,
+	wl.product_price_value as product_price_value,
+    wc.product_category_id as product_category_id,
+    wc.product_category_name as product_category_name,
+    z.zone_name as zone_name,
+    wu.product_unit_name as product_unit_name
+    FROM wh_product_list  as wl
+    LEFT JOIN zone as z on z.zone_id=wl.zone_id
+    LEFT JOIN wh_product_unit as wu on wu.product_unit_id=wl.product_unit_id
+    LEFT JOIN wh_product_category as wc on wc.product_category_id=wl.product_category_id
+	LEFT JOIN stock as s on s.product_id=wl.product_id
+    WHERE s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3  
+    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 
+    OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3 
+	OR s.branch_id="'.$_SESSION['branch_id'].'" AND s.product_stock_num BETWEEN 1 AND 3  
+LIMIT 30');
+
+$encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+ return $encode_data;
+
+        }
 
 
+// ==============================
+// public function Saletoday()
+//         {
 
+
+// if(isset($_SESSION['shift_id'])){
+// $shift_id= $_SESSION['shift_id'];
+// }else{
+//   $shift_id= '0';
+// }
+
+// $data['today'] = date('d-m-Y',time());
+
+// $dayfrom = strtotime($data['today']);
+// $dayto = strtotime($data['today'])+86400;
+
+
+// $query = $this->db->query('SELECT
+// COUNT(ID) AS allbill,
+// SUM(sumsale_num) as sumnum,
+// SUM(sumsale_price) as sumprice,
+// SUM(discount_last) as sumdiscount
+//  FROM sale_list_header WHERE owner_id="'.$_SESSION['owner_id'].'"
+//  AND adddate BETWEEN "'.$dayfrom.'" AND "'.$dayto.'" ');
+
+//  $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+//   return $encode_data;
+
+
+//         }
+
+// =================== end more =========================
     }

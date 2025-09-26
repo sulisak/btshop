@@ -22,7 +22,7 @@ $data['lang_login'] = 'เข้าสู่ระบบ';
 $data['lang_logout'] = 'ออกจากระบบ';
 $data['lang_save'] = 'บันทึก';
 
-$data['lang_possystem'] = 'POS ระบบขายหน้าร้าน';
+$data['lang_c2mpostem'] = 'POS ระบบขายหน้าร้าน';
 $data['lang_foodsystem'] = 'FOOD ระบบร้านอาหาร';
 $data['lang_apartmentsystem'] = 'APARTMENT ระบบที่พัก';
 
@@ -1425,7 +1425,7 @@ $data['lang_smb_7'] = 'Font ใบเสร็จ';
 $data['lang_smb_8'] = 'ใส่ภาพพื้นหลังโปรแกรม';
 $data['lang_smb_9'] = '+เพิ่มสาขา';
 $data['lang_smb_10'] = 'เลือก Font โปรแกรม';
-$data['lang_smb_11'] = 'C2MPOS 1234567890 การค้าขายเป็นเรื่องง่ายๆ';
+$data['lang_smb_11'] = 'c2mpos 1234567890 การค้าขายเป็นเรื่องง่ายๆ';
 $data['lang_smb_12'] = 'เลือก Font ใบเสร็จ';
 $data['lang_smb_13'] = 'เพิ่มสาขาใหม่';
 $data['lang_smb_14'] = 'ใช้หัวบิลตามชื่อร้าน';

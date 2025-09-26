@@ -545,13 +545,13 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                     placeholder="<?=$lang_productname?>" class="form-control" required="required">
                                 <p></p>
 
-
+                                <!-- date end ==========================================================-->
                                 <!-- <input type="hidden" id="product_date_end" name="product_date_end"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
 
-                                <!-- <input type="text" id="product_date_end" name="product_date_end"
+                                <input type="text" id="product_date_end" name="product_date_end"
                                     placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
-
+                                <!-- date end ==========================================================-->
                                 <?=$lang_productunit?>
                                 <select class="form-control" name="product_unit_id">
                                     <option value="0"><?=$lang_select?></option>
@@ -1484,7 +1484,7 @@ app.controller('Index', function($scope, $http, $location) {
         $("#product_id").val(x.product_id);
         $("#product_code").val(x.product_code);
         $("#product_name").val(x.product_name);
-        $("#product_date_end2").val(x.product_date_end);
+        // $("#product_date_end2").val(x.product_date_end);
         $("#product_des").val(x.product_des);
         $("#product_image2").val(x.product_image);
         $("#product_price").val(x.product_price);

@@ -37,6 +37,7 @@ class Stockless extends MY_Controller {
 $data['tab'] = 'stockless';
 $data['title'] = 'Product Stock less';
 		$this->warehouselayout('warehouse/stockless',$data);
+		// $this->deshboardlayout('deshboard',$data);
 }
 
 
@@ -51,7 +52,24 @@ exit();
 
 echo $list = $this->stockless_model->Getstockless($data);
 
+}
 
+
+
+
+
+
+
+	 function Getstockless_dashboard()
+    {
+
+
+$data = json_decode(file_get_contents("php://input"),true);
+if(!isset($data)){
+exit();
+}
+
+echo $list = $this->stockless_model->Getstockless_dashboard($data);
 
 }
 

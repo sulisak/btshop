@@ -22,7 +22,7 @@ $data['lang_login'] = 'Login';
 $data['lang_logout'] = 'Logout';
 $data['lang_save'] = 'Save';
 
-$data['lang_possystem'] = 'POS Shop system';
+$data['lang_c2mpostem'] = 'POS Shop system';
 $data['lang_foodsystem'] = 'FOOD Restaurant system';
 $data['lang_apartmentsystem'] = 'Apartment Dormitory system';
 

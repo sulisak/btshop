@@ -170,7 +170,7 @@ $owner_id = $_SESSION['owner_id'];
 $user_id = $_SESSION['user_id'];
 $store_id = $_SESSION['store_id'];
 
-////////////// By C2MPOS // 
+////////////// By c2mpos // 
 
 $headim['importproduct_header_code'] = 'IM'.$now;
 $headim['importproduct_header_remark'] = $importproduct_header_remark;
