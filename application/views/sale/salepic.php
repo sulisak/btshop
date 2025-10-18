@@ -6558,8 +6558,11 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
                                                                     0]
                                                                 .product_price_discount_percent
                                                         }).success(function(data) {
-                                                            $scope.listsale = data;
 
+                                                            $scope.listsale = data;
+                                                            console.log(
+                                                                'list customer select product...',
+                                                                $listsale);
                                                             $scope.Getnumtoprice($scope
                                                                 .getnumtoprice_product_code
                                                             );
@@ -6598,24 +6601,10 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
 
 
 
-
-
-
-
-
                                                     }
 
 
-
-
-
-
-
                                                 }
-
-
-
-
 
                                                 $scope.cannotfindproduct = false;
 

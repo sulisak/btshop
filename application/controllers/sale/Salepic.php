@@ -98,6 +98,9 @@ $data = array(
 
         $data = json_decode(file_get_contents("php://input"),true);
         echo  $this->salepage_model->Saveshowcus($data);
+
+        
+        
 //echo  $this->salepage_model->Saveshowcusnotsum($data);
         	}
 
