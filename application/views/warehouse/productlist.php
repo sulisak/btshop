@@ -18,9 +18,9 @@ td.image-cell {
 }
 
 .product-image {
-    width: 200px;
+    width: 250px;
     /* square image */
-    height: 200px;
+    height: 250px;
     object-fit: cover;
     /* crop to fit square */
     border-radius: 8px;
@@ -105,18 +105,16 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
                 <input type="checkbox" ng-model="showdeletcbut"> <?=$lang_showdel?>
             </div>
             <?php } ?>
-            <!-- Global toggle button -->
-            <button class="btn btn-sm" ng-class="showAllImages ? 'btn-danger' : 'btn-success'"
-                ng-click="toggleAllImages()">
-                {{ showAllImages ? 'ປິດຮູບທັງໝົດ' : 'ເບິ່ງຮູບທັງໝົດ' }}
-            </button>
-            <br />
-            <p></p>
-            <p></p>
+
+
             <div id="openprint_table">
 
 
-
+                <!-- Global toggle button -->
+                <button class="btn btn-sm" ng-class="showAllImages ? 'btn-danger' : 'btn-success'"
+                    ng-click="toggleAllImages()">
+                    {{ showAllImages ? 'ປິດຮູບທັງໝົດ' : 'ເບິ່ງຮູບທັງໝົດ' }}
+                </button>
 
 
                 <table ng-if="list" id="headerTable" class="table table-hover table-bordered" style="font-size: 14px;">
@@ -192,11 +190,16 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
 
                             <td class="image-cell">
                                 <div class="image-wrapper">
+                                    <!-- Show button only if product_image exists -->
+                                    <!--<button class="btn btn-xs mb-2" ng-if="x.product_image"
+                                        ng-class="{'btn-success': !x.showImage, 'btn-danger': x.showImage}"
+                                        ng-click="toggleRowImage(x)">
+                                        {{ x.showImage ? 'ປິດຮູບ' : 'ເບິ່ງຮູບ' }}
+                                    </button> -->
 
                                     <!-- Show image if global toggle OR row-level toggle is active -->
                                     <img ng-if="(showAllImages || x.showImage) && x.product_image"
-                                        ng-src="<?php echo $base_url;?>/{{x.product_image}}" class="product-image"
-                                        loading="lazy">
+                                        ng-src="<?php echo $base_url;?>/{{x.product_image}}" class="product-image">
                                 </div>
                             </td>
 
@@ -545,13 +548,13 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                     placeholder="<?=$lang_productname?>" class="form-control" required="required">
                                 <p></p>
 
-                                <!-- date end ==========================================================-->
+
                                 <!-- <input type="hidden" id="product_date_end" name="product_date_end"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
 
                                 <input type="text" id="product_date_end" name="product_date_end"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
-                                <!-- date end ==========================================================-->
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
+
                                 <?=$lang_productunit?>
                                 <select class="form-control" name="product_unit_id">
                                     <option value="0"><?=$lang_select?></option>
@@ -774,9 +777,9 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                     placeholder="<?=$lang_productname?>" class="form-control" required="required">
                                 <p></p>
 
-                                <!-- ວັນໝົດອາຍຸ
+                                ວັນໝົດອາຍຸ
                                 <input type="text" name="product_date_end" id="product_date_end2"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
 
 
                                 <?=$lang_productunit?>
@@ -1341,8 +1344,6 @@ app.controller('Index', function($scope, $http, $location) {
                 // Set showImages = true to fetch images
                 $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage,
                     true);
-
-                // console.log('i am pregetlist.. ', $scope.pregetlist);
             });
         }, 300); // debounce 0.3s
     };
@@ -1360,8 +1361,6 @@ app.controller('Index', function($scope, $http, $location) {
 
         // Reload list with updated image flag
         $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage, $scope.showAllImages);
-
-        console.log('i am showAllImages...', $scope.getlist);
     };
 
     // ================== Toggle Row Image ==================
@@ -1384,7 +1383,6 @@ app.controller('Index', function($scope, $http, $location) {
             perpage: $scope.perpage,
             showImages: $scope.showImages
         }).success(function(data) {
-            // console.log('data product list.', data);
             $scope.list = data.list || [];
             $scope.pageall = data.pageall || 0;
             $scope.numall = data.numall || 0;
@@ -1453,9 +1451,8 @@ app.controller('Index', function($scope, $http, $location) {
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    console.log(data);
                     if (data == '1') {
-                        toastr.warning('ມີສິນຄ້າບາໂຄດນີ້ແລ້ວ');
+                        toastr.warning('ມີສິນຄ້ານີ້ແລ້ວ');
                         $('#Openeditloading').modal('hide');
                     } else {
                         toastr.success('<?php echo $lang_success;?>');
@@ -1484,7 +1481,7 @@ app.controller('Index', function($scope, $http, $location) {
         $("#product_id").val(x.product_id);
         $("#product_code").val(x.product_code);
         $("#product_name").val(x.product_name);
-        // $("#product_date_end2").val(x.product_date_end);
+        $("#product_date_end2").val(x.product_date_end);
         $("#product_des").val(x.product_des);
         $("#product_image2").val(x.product_image);
         $("#product_price").val(x.product_price);
@@ -1648,7 +1645,6 @@ app.controller('Index', function($scope, $http, $location) {
                 product_stock_num_change: $scope.product_stock_num_change,
                 des: $scope.log_edit_des
             }).success(function(data) {
-                // console.log('Button Updatematok', product_stock_num);
                 $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage);
                 $('#updatematmodal').modal('hide');
             });
