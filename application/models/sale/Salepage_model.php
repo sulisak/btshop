@@ -994,11 +994,6 @@ $this->db->query('DELETE FROM sale_list_cus2mer WHERE user_id="'.$_SESSION['user
 
 
 
-
-
-
-
-
 public function Addmoneychange($m,$mc,$pc)
   {
 
@@ -1019,9 +1014,6 @@ SET money_change_showcus="0.01" WHERE owner_id="'.$_SESSION['owner_id'].'"');
 
 }
 
-
-
-
 public function Showmoneychange($data)
   {
 
@@ -1032,11 +1024,6 @@ public function Showmoneychange($data)
     return $encode_data;
 
 }
-
-
-
-
-
 
 
 public function Openshiftnow($data)
@@ -1090,12 +1077,6 @@ if($shift_end_time[0]['shift_end_time']==''){
 
                }
 
-
-
-
-
-
-
                public function Closeshiftnowconfirm($data)
                             {
                     $query = $this->db->query('UPDATE shift
@@ -1130,14 +1111,7 @@ if($shift_end_time[0]['shift_end_time']==''){
                         SET number_for_cus="0" WHERE branch_id="'.$_SESSION['branch_id'].'"');
 
 
-
-
-                            }
-
-
-
-
-
+                }
 
          public function Updateproductdeletestock($data2)
         {
@@ -1167,9 +1141,6 @@ $this->db->insert("stock", $data_ss);
 }
 
 
-
-
-
 $query = $this->db->query('UPDATE stock
     SET product_stock_num=product_stock_num - '.$data2['product_sale_num'].'
     WHERE product_id="'.$data2['product_id'].'" and  branch_id="'.$_SESSION['branch_id'].'"');
@@ -1185,12 +1156,6 @@ $query = $this->db->query('UPDATE serial_number
 return true;
 
         }
-
-
-
-
-
-
 
  public function Addproductranksave($data)
         {
@@ -1218,8 +1183,6 @@ return true;
 
         }
 
-
-
  public function Delproductranksave($data)
         {
 
@@ -1230,18 +1193,12 @@ return true;
 
         }
 
-
-
 public function Savemorepay($data)
         {
 
 $this->db->insert("morepay", $data);
 
 }
-
-
-
-
 
 public function Gettoday($data)
         {
@@ -1297,12 +1254,6 @@ $num_rows = $querynum->num_rows();
 $pageall = ceil($num_rows/$perpage);
 
 
-
-
-
-
-
-
 $json = '{"list": '.$encode_data.',
 "numall": '.$num_rows.',"perpage": '.$perpage.', "pageall": '.$pageall.'}';
 
@@ -1311,24 +1262,6 @@ return $json;
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public function Getquotation($data)
@@ -1369,8 +1302,6 @@ $percent =	$data['customer_group_discountpercent']/100;
 
         public function Saveshowcus($data)
                 {
-
-	
 $querystock = $this->db->query('SELECT IFNULL((SELECT product_stock_num FROM stock 
 WHERE product_id="'.$data['product_id'].'" LIMIT 1),"0") as product_stock_num');
 $querysalelistcus = $this->db->query('SELECT sum(product_sale_num) as product_sale_num FROM sale_list_cus2mer 
@@ -1384,15 +1315,10 @@ if($retstock->product_stock_num-$retsalelistcus->product_sale_num > $_SESSION['s
 $cansale = '0';
 }
 
-
-
         $data['owner_id'] = $_SESSION['owner_id'];
         $data['user_id'] = $_SESSION['user_id'];
         $data['store_id'] = $_SESSION['store_id'];
         $data['adddate'] = time();
-
-
-
 
 $query1 = $this->db->query('SELECT * FROM sale_list_cus2mer 
 WHERE product_name="'.$data['product_name'].'" and  user_id="'.$_SESSION['user_id'].'"');
@@ -1408,7 +1334,6 @@ if($num_rows == 1){
   $this->db->insert("sale_list_cus2mer", $data);
 }
 }
-
 
           $query = $this->db->query('SELECT  sum(product_sale_num) as product_sale_num,
           sc_ID,
@@ -1432,9 +1357,6 @@ if($num_rows == 1){
 
           $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
           return $encode_data;
-
-
-
 
 
 
@@ -1945,24 +1867,16 @@ sc_ID,
       $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
       return $encode_data;
 
-
-
       }
-
-
-
 
 
       public function Updateshowcusnotsum($data)
               {
 
-
-
   $this->db->query('UPDATE sale_list_cus2mer
   SET product_name="'.$data['product_name'].'",
   product_price="'.$data['product_price'].'"
   WHERE sc_ID="'.$data['sc_ID'].'"');
-
 
 
         $query = $this->db->query('SELECT SUM(product_sale_num) as product_sale_num,
@@ -1988,14 +1902,7 @@ sc_ID,
         $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
         return $encode_data;
 
-
-
         }
-
-
-
-
-
 
 
         public function Getrelationlist($product_id)
@@ -2008,9 +1915,6 @@ sc_ID,
         return $query->result_array();
 
         }
-
-
-
 
         public function Updateproductdeletestock_relation($sale_runno,$product_id,$product_name,$numnow,$product_id_relation,$product_type_relation)
         {

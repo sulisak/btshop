@@ -10,11 +10,7 @@ class Name_of_price_model extends CI_Model {
                 parent::__construct();
                 $this->load->library('session');
 
-
         }
-
-
-
 
            public function Update($data)
         {
@@ -38,14 +34,7 @@ if ($this->db->update("name_of_price", $data)){
 WHERE id="1"');	
 
 
-
 }
-
-
-
-      
-
-
 
            public function Get()
         {
@@ -55,10 +44,5 @@ $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
 return $encode_data;
 
         }
-
-
-
-
-
 
     }

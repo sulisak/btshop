@@ -193,7 +193,7 @@ else {
 
 
 
-
+            <!-- product box ================== -->
 
             <div style="height: 760px;overflow: auto;">
 
@@ -240,19 +240,21 @@ else {
                                 <span ng-if="sale_type=='4'">{{x.product_price4 | number}}</span>
                                 <span ng-if="sale_type=='5'">{{x.product_price5 | number}}</span>
                             </div>
-
+                            <!-- ຍ່ອຍ -->
                             <span ng-if="x.product_price_discount!=0.00 && sale_type=='1'">
                                 <strike>
                                     {{x.product_price | number}}
                                 </strike>
                             </span>
+                            <!-- ຍ່ອຍ -->
 
+                            <!-- ສົ່ງ -->
                             <span ng-if="x.product_price_discount!=0.00 && sale_type=='2'">
                                 <strike>
                                     {{x.product_wholesale_price | number}}
                                 </strike>
                             </span>
-
+                            <!-- ສົ່ງ -->
                             <span ng-if="x.product_price_discount!=0.00 && sale_type=='3'">
                                 <strike>
                                     {{x.product_price3 | number}}
@@ -304,7 +306,7 @@ else {
 
 
                 </div>
-
+                <!-- product box ================== -->
 
                 <!-- <center>
 <img ng-if="!productlist || !productlistkey" src="<?php echo $base_url;?>/pic/loading.gif">
@@ -4895,15 +4897,7 @@ if($_SESSION['owner_vat_status']=='2'){
                                     </div>
                                     <?php } ?>
 
-
-
-
-
-
                                 </div>
-
-
-
 
                                 <script>
                                 var app = angular.module('firstapp', []);
@@ -4921,6 +4915,11 @@ if($_SESSION['owner_vat_status']=='2'){
                                     $scope.vatnumber = 0;
 
                                     $scope.sale_type = '1';
+
+                                    console.log('i am defaultsale_type...',
+                                        $scope.sale_type);
+
+
                                     $scope.pay_type = '1';
                                     $scope.discount_last = '0';
                                     $scope.reserv = '0';
@@ -4936,6 +4935,8 @@ if($_SESSION['owner_vat_status']=='2'){
 
                                     $scope.ParsefloatFunc = function(data) {
                                         return parseFloat(data);
+
+
                                     };
 
 
@@ -6562,7 +6563,7 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
                                                             $scope.listsale = data;
                                                             console.log(
                                                                 'list customer select product...',
-                                                                $listsale);
+                                                                $scope.listsale);
                                                             $scope.Getnumtoprice($scope
                                                                 .getnumtoprice_product_code
                                                             );
@@ -6627,6 +6628,9 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
                                         $http.get('<?php echo $base_url;?>/salesetting/name_of_price/get')
                                             .then(function(response) {
                                                 $scope.name_of_price_list = response.data.list;
+
+                                                console.log('name_of_price list....', $scope
+                                                    .name_of_price_list);
 
                                             });
                                     };
