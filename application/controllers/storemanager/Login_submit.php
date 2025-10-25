@@ -36,10 +36,11 @@ else{
             );
 
             if ($this->store_manager_model->get_user($data) === true)
-            {
-               
-               
 
+            
+            {
+                
+              
 
 if($_SESSION['store_type']=='0'){
     header( "location: ".$this->base_url."/storemanager/user_owner" );
@@ -54,8 +55,6 @@ if($_SESSION['store_type']=='2'){
     header( "location: ".$this->base_url."/apartmentmanager/user_owner" );
 }
 
-
-
             }
             else
             {
@@ -63,19 +62,7 @@ if($_SESSION['store_type']=='2'){
             }
 
         }
-
-
-
-
         
     }
-
-
-
-
-
-
-
-
 
 }

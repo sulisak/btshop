@@ -115,25 +115,42 @@ $data['product_code'] = rand(100000,999999);
 $data['product_code'] =  $_POST['product_code'];
 }
 
-$data['product_name'] = $_POST['product_name'];
-$data['product_date_end'] = $_POST['product_date_end'];
-$data['product_date_end2'] = strtotime($_POST['product_date_end']);
-$data['product_des'] = $_POST['product_des'];
-$data['product_price'] = $_POST['product_price'];
-$data['product_wholesale_price'] = $_POST['product_wholesale_price'];
-// $data['product_price3'] = $_POST['product_price3'];
-// $data['product_price4'] = $_POST['product_price4'];
-// $data['product_price5'] = $_POST['product_price5'];
-$data['product_pricebase'] = $_POST['product_pricebase'];
-$data['product_category_id'] = $_POST['product_category_id'];
-$data['product_unit_id'] = $_POST['product_unit_id'];
-$data['supplier_id'] = $_POST['supplier_id'];
-$data['product_score'] = $_POST['product_score'];
-$data['zone_id'] = $_POST['zone_id'];
-// $data['count_stock'] = $_POST['count_stock'];
+// $data['product_name'] = $_POST['product_name'];
+// $data['product_date_end'] = $_POST['product_date_end'];
+// $data['product_date_end2'] = strtotime($_POST['product_date_end']);
+// $data['product_des'] = $_POST['product_des'];
+// $data['product_price'] = $_POST['product_price'];
+// $data['product_wholesale_price'] = $_POST['product_wholesale_price'];
+// // $data['product_price3'] = $_POST['product_price3'];
+// // $data['product_price4'] = $_POST['product_price4'];
+// // $data['product_price5'] = $_POST['product_price5'];
+// $data['product_pricebase'] = $_POST['product_pricebase'];
+// $data['product_category_id'] = $_POST['product_category_id'];
+// $data['product_unit_id'] = $_POST['product_unit_id'];
+// $data['supplier_id'] = $_POST['supplier_id'];
+// $data['product_score'] = $_POST['product_score'];
+// $data['zone_id'] = $_POST['zone_id'];
+// // $data['count_stock'] = $_POST['count_stock'];
 
 
-$data['product_num_min'] = $_POST['product_num_min'];
+// $data['product_num_min'] = $_POST['product_num_min'];
+
+
+ // --- Safely get all POST fields ---
+    $data['product_name']            = isset($_POST['product_name']) ? $_POST['product_name'] : '';
+    $data['product_date_end']        = isset($_POST['product_date_end']) ? $_POST['product_date_end'] : '';
+    $data['product_date_end2']       = !empty($_POST['product_date_end']) ? strtotime($_POST['product_date_end']) : 0;
+    $data['product_des']             = isset($_POST['product_des']) ? $_POST['product_des'] : '';
+    $data['product_price']           = isset($_POST['product_price']) ? $_POST['product_price'] : 0;
+    $data['product_wholesale_price'] = isset($_POST['product_wholesale_price']) ? $_POST['product_wholesale_price'] : 0;
+    $data['product_pricebase']       = isset($_POST['product_pricebase']) ? $_POST['product_pricebase'] : 0;
+    $data['product_category_id']     = isset($_POST['product_category_id']) ? $_POST['product_category_id'] : 0;
+    $data['product_unit_id']         = isset($_POST['product_unit_id']) ? $_POST['product_unit_id'] : 0;
+    $data['supplier_id']             = isset($_POST['supplier_id']) ? $_POST['supplier_id'] : 0;
+    $data['product_score']           = isset($_POST['product_score']) ? $_POST['product_score'] : 0;
+    $data['zone_id']                 = isset($_POST['zone_id']) ? $_POST['zone_id'] : 0;
+    $data['product_num_min']         = isset($_POST['product_num_min']) ? $_POST['product_num_min'] : 0;
+
 // $data['is_course'] = $_POST['is_course'];
 // $data['product_weight'] = $_POST['product_weight'];
 
@@ -282,21 +299,10 @@ $data3['product_category_id'] = $data['product_category_id'];
 
 }
 
-
-
-
-
-
-
 }
-
-
-
 
     function Get()
     {
-
-
 $data = json_decode(file_get_contents("php://input"),true);
 if(!isset($data)){
 exit();
@@ -318,15 +324,8 @@ echo  $this->productlist_model->Updatenopic($data);
 
 }
 
-
-
-
-
-
     function Changecodethtoen()
     {
-
-
 $data = json_decode(file_get_contents("php://input"),true);
 if(!isset($data)){
 exit();
@@ -337,13 +336,8 @@ echo  $code;
 
 }
 
-
-
-
-
 function Searchpot()
 {
-
 
 $data = json_decode(file_get_contents("php://input"),true);
 if(!isset($data)){
@@ -353,15 +347,8 @@ echo  $this->productlist_model->Searchpot($data);
 
 }
 
-
-
-
-
-
-
 function Opensn()
 {
-
 
 $data = json_decode(file_get_contents("php://input"),true);
 if(!isset($data)){
@@ -370,10 +357,6 @@ exit();
 echo  $this->productlist_model->Opensn($data);
 
 }
-
-
-
-
 
 function Getpotlist()
 {
@@ -386,8 +369,6 @@ echo  $this->productlist_model->Getpotlist($data);
 
 }
 
-
-
 function Getpotlistshowall()
 {
 
@@ -398,8 +379,6 @@ exit();
 echo  $this->productlist_model->Getpotlistshowall($data);
 
 }
-
-
 
 function Addpot()
 {
@@ -412,7 +391,6 @@ echo  $this->productlist_model->Addpot($data);
 
 }
 
-
 function Delpot()
 {
 
@@ -423,11 +401,6 @@ exit();
 echo  $this->productlist_model->Delpot($data);
 
 }
-
-
-
-
-
 
 function Update_vat()
 {
@@ -440,9 +413,6 @@ echo  $this->productlist_model->Update_vat($data);
 
 }
 
-
-
-
 function Update_popup_pricenum()
 {
 
@@ -454,20 +424,19 @@ echo  $this->productlist_model->Update_popup_pricenum($data);
 
 }
 
-
-
-
-
-
-
-
     function Uploadexcel()
     {
 $time = time().$_SESSION['owner_id'];
 
-if(move_uploaded_file($_FILES["excel"]["tmp_name"], "upload/" . $time.'.csv'))
-{
-$file = 'upload/'.$time.'.csv';
+$upload_path = FCPATH . 'upload/';  // ✅ use absolute path (CodeIgniter constant)
+
+// ✅ make sure the folder exists
+if (!is_dir($upload_path)) {
+    mkdir($upload_path, 0755, true);
+}
+
+if (move_uploaded_file($_FILES["excel"]["tmp_name"], $upload_path . $time . '.csv')) {
+    $file = $upload_path . $time . '.csv';
 
 $fileopen = fopen($file, "r");
 //$data = fgetcsv( $fileopen , 3, ',' );
@@ -476,112 +445,52 @@ $i=0;
 while (($dataexcel = fgetcsv($fileopen, 1000, ",")) !== FALSE) {
 if($i>0){
 
+ // Skip empty rows entirely
+        if (empty(array_filter($dataexcel))) {
+            continue;
+        }
 
+// Use isset() to avoid "Undefined offset" errors
+$data['product_code'] = isset($dataexcel[0]) && $dataexcel[0] != null
+    ? str_replace(' ', '', $dataexcel[0])
+    : rand(100000, 999999);
 
+$data['product_name'] = isset($dataexcel[1]) && $dataexcel[1] != null
+    ? $dataexcel[1]
+    : '0';
 
-if($dataexcel[0] ==null){
-$data['product_code'] = rand(100000,999999);
-}else{
-	$data['product_code'] = str_replace(' ', '', $dataexcel[0]);
-}
+$data['product_stock_num'] = isset($dataexcel[2]) ? $dataexcel[2] : '';
 
+$data['product_pricebase'] = isset($dataexcel[3]) ? $dataexcel[3] : '0';
 
-if($dataexcel[1] ==null){
-$data['product_name'] = '0';
-}else{
-	$data['product_name'] = $dataexcel[1];
-}
+// $data['product_price'] = isset($dataexcel[4]) ? $dataexcel[4] : '0';
+$data['product_price'] = isset($dataexcel[6]) ? $dataexcel[6] : '0';
 
+// $data['product_wholesale_price'] = isset($dataexcel[5]) ? $dataexcel[5] : '0';
+$data['product_wholesale_price'] = isset($dataexcel[7]) ? $dataexcel[7] : '0';
 
+// $data['product_price3'] = isset($dataexcel[6]) ? $dataexcel[6] : '0';
+$data['product_price3'] = isset($dataexcel[8]) ? $dataexcel[8] : '0';
 
-if($dataexcel[2] ==null){
-$data['product_stock_num'] = '';
-}else{
-	$data['product_stock_num'] = $dataexcel[2];
-}
+$data['product_price4'] = isset($dataexcel[9]) ? $dataexcel[9] : '0';
 
+$data['product_price5'] = isset($dataexcel[10]) ? $dataexcel[10] : '0';
 
+$data['product_score'] = isset($dataexcel[11]) ? $dataexcel[11] : '0';
 
-
-if($dataexcel[3] ==null){
-	$data['product_pricebase'] = '0';
-}else{
-	$data['product_pricebase']  = $dataexcel[3];
-}
-
-
-if($dataexcel[4] ==null){
-$data['product_price'] = '0';
-}else{
-	$data['product_price'] = $dataexcel[4];
-}
-
-
-
-
-
-if($dataexcel[5] ==null){
-$data['product_wholesale_price'] = '0';
-}else{
-	$data['product_wholesale_price'] = $dataexcel[5];
-}
-
-
-if($dataexcel[6] ==null){
-$data['product_price3'] = '0';
-}else{
-	$data['product_price3'] = $dataexcel[6];
-}
-
-
-if($dataexcel[7] ==null){
-$data['product_price4'] = '0';
-}else{
-	$data['product_price4'] = $dataexcel[7];
-}
-
-
-if($dataexcel[8] ==null){
-$data['product_price5'] = '0';
-}else{
-	$data['product_price5'] = $dataexcel[8];
-}
-
-
-if($dataexcel[9] ==null){
-$data['product_score'] = '0';
-}else{
-	$data['product_score'] = $dataexcel[9];
-}
-
-
-if($dataexcel[10] ==null){
-$data['product_des'] = '';
-}else{
-	$data['product_des'] = $dataexcel[10];
-}
-
-
+$data['product_des'] = isset($dataexcel[12]) ? $dataexcel[12] : '';
 
 $data['product_category_id'] = $_POST['product_category_id'];
 $data['product_image']  = '';
-
-
 $data['supplier_id'] = '';
 $data['zone_id'] = '';
 $data['product_date_end'] = '';
 $data['product_date_end2'] = '';
 $data['product_unit_id'] = '';
 $data['product_num_min'] = '';
-
-
-
 $data['count_stock'] = 0;
 $data['is_course'] = 0;
 $data['product_weight'] = '0';
-
-
-
  $success = $this->productlist_model->Add($data);
 
 }
@@ -589,8 +498,6 @@ $i=1;
 }
 
 fclose($fileopen);
-
-
 
 }else{
 	echo 'no';
@@ -723,10 +630,5 @@ function Downloadexcel() {
  
 
 }
-
-
-
-
-
 
 	}

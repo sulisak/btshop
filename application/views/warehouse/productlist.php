@@ -111,10 +111,10 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
 
 
                 <!-- Global toggle button -->
-                <button class="btn btn-sm" ng-class="showAllImages ? 'btn-danger' : 'btn-success'"
+                <!-- <button class="btn btn-sm" ng-class="showAllImages ? 'btn-danger' : 'btn-success'"
                     ng-click="toggleAllImages()">
                     {{ showAllImages ? 'ປິດຮູບທັງໝົດ' : 'ເບິ່ງຮູບທັງໝົດ' }}
-                </button>
+                </button> -->
 
 
                 <table ng-if="list" id="headerTable" class="table table-hover table-bordered" style="font-size: 14px;">
@@ -125,7 +125,7 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
                         <tr style="background-color: #eee;">
                             <th style="width: 50px;"><?=$lang_rank?></th>
                             <th style="text-align: center;"><?=$lang_barcode?></th>
-                            <th style="text-align: center;"><?=$lang_picproduct?></th>
+                            <!-- <th style="text-align: center;"><?=$lang_picproduct?></th> -->
                             <th style="text-align: center;"><?=$lang_productname?></th>
                             <!-- <th style="text-align: center;">ວັນໝົດອາຍຸ</th> -->
                             <th style="text-align: center;"><?=$lang_detail?></th>
@@ -149,6 +149,7 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
                             <?php } ?>
 
                             <th style="text-align: center;"><?=$lang_wherestore?></th>
+                            <th style="text-align: center;">Popup</th>
 
                             <th style=""><?=$lang_manage?></th>
                         </tr>
@@ -188,20 +189,20 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
 
                             <!-- update image to prevent load image much -->
 
-                            <td class="image-cell">
-                                <div class="image-wrapper">
-                                    <!-- Show button only if product_image exists -->
-                                    <!--<button class="btn btn-xs mb-2" ng-if="x.product_image"
+                            <!-- <td class="image-cell"> -->
+                            <!-- <div class="image-wrapper"> -->
+                            <!-- Show button only if product_image exists -->
+                            <!--<button class="btn btn-xs mb-2" ng-if="x.product_image"
                                         ng-class="{'btn-success': !x.showImage, 'btn-danger': x.showImage}"
                                         ng-click="toggleRowImage(x)">
                                         {{ x.showImage ? 'ປິດຮູບ' : 'ເບິ່ງຮູບ' }}
                                     </button> -->
 
-                                    <!-- Show image if global toggle OR row-level toggle is active -->
-                                    <img ng-if="(showAllImages || x.showImage) && x.product_image"
+                            <!-- Show image if global toggle OR row-level toggle is active -->
+                            <!-- <img ng-if="(showAllImages || x.showImage) && x.product_image"
                                         ng-src="<?php echo $base_url;?>/{{x.product_image}}" class="product-image">
-                                </div>
-                            </td>
+                                </div> -->
+                            <!-- </td> -->
 
 
 
@@ -283,8 +284,46 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one let admi
 
                             <td align="right">{{x.zone_name}}</td>
 
+                            <td align="center">
+
+                                <select class="form-control" ng-if="x.popup_pricenum=='0'"
+                                    ng-change="Update_popup_pricenum(x)" ng-model="x.popup_pricenum"
+                                    style="width:93px;color:red;">
+                                    <option value="0" style="color:red;"><?php echo $lang_pl_17; ?></option>
+                                    <option value="1" style="color:green;"><?php echo $lang_pl_18; ?></option>
+                                    <option value="2" style="color:blue;"><?php echo $lang_pl_19; ?></option>
+                                    <option value="3" style="color:orange;"><?php echo $lang_pl_20; ?></option>
+                                </select>
 
 
+                                <select class="form-control" ng-if="x.popup_pricenum=='1'"
+                                    ng-change="Update_popup_pricenum(x)" ng-model="x.popup_pricenum"
+                                    style="width:135px;color:green;">
+                                    <option value="0" style="color:red;"><?php echo $lang_pl_17; ?></option>
+                                    <option value="1" style="color:green;"><?php echo $lang_pl_18; ?></option>
+                                    <option value="2" style="color:blue;"><?php echo $lang_pl_19; ?></option>
+                                    <option value="3" style="color:orange;"><?php echo $lang_pl_20; ?></option>
+                                </select>
+
+                                <select class="form-control" ng-if="x.popup_pricenum=='2'"
+                                    ng-change="Update_popup_pricenum(x)" ng-model="x.popup_pricenum"
+                                    style="width:93px;color:blue;">
+                                    <option value="0" style="color:red;"><?php echo $lang_pl_17; ?></option>
+                                    <option value="1" style="color:green;"><?php echo $lang_pl_18; ?></option>
+                                    <option value="2" style="color:blue;"><?php echo $lang_pl_19; ?></option>
+                                    <option value="3" style="color:orange;"><?php echo $lang_pl_20; ?></option>
+                                </select>
+
+                                <select class="form-control" ng-if="x.popup_pricenum=='3'"
+                                    ng-change="Update_popup_pricenum(x)" ng-model="x.popup_pricenum"
+                                    style="width:130px;color:orange;">
+                                    <option value="0" style="color:red;"><?php echo $lang_pl_17; ?></option>
+                                    <option value="1" style="color:green;"><?php echo $lang_pl_18; ?></option>
+                                    <option value="2" style="color:blue;"><?php echo $lang_pl_19; ?></option>
+                                    <option value="3" style="color:orange;"><?php echo $lang_pl_20; ?></option>
+                                </select>
+
+                            </td>
 
 
 
@@ -320,19 +359,33 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
 
             <!-- Pagination & per-page selection -->
             <form class="form-inline">
-                <?=$lang_show?>
+                <div class="form-group">
+                    <?=$lang_show?>
+                    <select class="form-control" name="" id="" ng-model="perpage"
+                        ng-change="getlist(searchtext,'1',perpage)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="1000">1000</option>
+                        <option value="3000">3000</option>
+                        <option value="5000">5000</option>
+                        <option value="10000">10000</option>
+                        <option value="100000">100000</option>
+                        <option value="1000000">1000000</option>
+                    </select>
 
-                <select class="form-control" ng-model="perpage" ng-change="getlist(searchtext,'1',perpage, showImages)">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
+                    <?=$lang_page?>
+                    <select name="" id="" class="form-control" ng-model="selectthispage"
+                        ng-change="getlist(searchtext,selectthispage,perpage)">
+                        <option ng-repeat="i in pagealladd" value="{{i.a}}">{{i.a}}</option>
+                    </select>
+                </div>
 
-                <?=$lang_page?>
-                <select class="form-control" ng-model="selectthispage"
-                    ng-change="getlist(searchtext, selectthispage, perpage, showImages)">
-                    <option ng-repeat="i in pagealladd" value="{{i.a}}">{{i.a}}</option>
-                </select>
+
             </form>
 
 
@@ -539,9 +592,9 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                 <?=$lang_barcode?>
                                 <input type="text" onkeypress="validate(event)" name="product_code"
                                     placeholder="<?=$lang_barcode?> a-z,0-9" class="form-control">
-                                <p></p>
-                                <?=$lang_picproduct?>
-                                <input type="file" name="product_image" accept="image/*" class="form-control" value="">
+                                <!-- <p></p>
+                                <?=$lang_picproduct?> 
+                                <input type="file" name="product_image" accept="image/*" class="form-control" value=""> -->
                                 <p></p>
                                 <?=$lang_productname?>
                                 <input type="text" onkeypress="validate_pn(event)" name="product_name"
@@ -552,8 +605,7 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                 <!-- <input type="hidden" id="product_date_end" name="product_date_end"
                                     placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
 
-                                <input type="text" id="product_date_end" name="product_date_end"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
+
 
                                 <?=$lang_productunit?>
                                 <select class="form-control" name="product_unit_id">
@@ -763,23 +815,23 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                                 <?=$lang_barcode?>
                                 <input type="text" onkeypress="validate(event)" name="product_code" id="product_code"
                                     placeholder="<?=$lang_barcode?>" class="form-control">
-                                <p></p>
+                                <!-- <p></p>
                                 <input type="hidden" name="product_image2" id="product_image2">
                                 <center ng-if="product_image!=''">
-                                    <img ng-src="<?php echo $base_url;?>/{{product_image}}" width="70px" height="70px;">
+                                    <img ng-src="<?php echo $base_url;?>/{{product_image}}" width="70px" height="70px;"> -->
 
                                 </center>
-                                <?=$lang_picproduct?>
-                                <input type="file" name="product_image" accept="image/*" class="form-control" value="">
+                                <!-- <?=$lang_picproduct?>
+                                <input type="file" name="product_image" accept="image/*" class="form-control" value=""> -->
                                 <p></p>
                                 <?=$lang_productname?>
                                 <input type="text" onkeypress="validate_pn(event)" name="product_name" id="product_name"
                                     placeholder="<?=$lang_productname?>" class="form-control" required="required">
                                 <p></p>
 
-                                ວັນໝົດອາຍຸ
+                                <!-- ວັນໝົດອາຍຸ
                                 <input type="text" name="product_date_end" id="product_date_end2"
-                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control">
+                                    placeholder="<?php echo $lang_pl_37;?>" class="form-control"> -->
 
 
                                 <?=$lang_productunit?>
@@ -1003,28 +1055,11 @@ if($_SESSION['user_type']==4 || $_SESSION['user_type']==3 ) // this one update f
                             <span style="color:red;">
                                 <?php echo $lang_pl_50_a4;?> </span>
 
-
-
-
-
-
                         </div>
 
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
             <div class="modal fade" id="Getsnmodal">
                 <div class="modal-dialog modal-sm">
@@ -1348,48 +1383,29 @@ app.controller('Index', function($scope, $http, $location) {
         }, 300); // debounce 0.3s
     };
 
-    // ================== Toggle All Images ==================
-    $scope.toggleAllImages = function() {
-        $scope.showAllImages = !$scope.showAllImages;
-
-        // Reset row-level image flags if hiding all
-        if (!$scope.showAllImages && $scope.list.length) {
-            $scope.list.forEach(function(x) {
-                x.showImage = false;
-            });
-        }
-
-        // Reload list with updated image flag
-        $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage, $scope.showAllImages);
-    };
-
-    // ================== Toggle Row Image ==================
-    $scope.toggleRowImage = function(row) {
-        row.showImage = !row.showImage;
-    };
-
     // ================== Unified getlist Function ==================
     $scope.getlist = function(searchtext, page, perpage, loadImages) {
         $scope.searchtext = searchtext || $scope.searchtext;
         $scope.selectthispage = page || $scope.selectthispage;
         $scope.perpage = perpage || $scope.perpage;
-        $scope.showImages = loadImages || false;
-
         $scope.list = false; // reset list while loading
 
         $http.post("Productlist/Get", {
             searchtext: $scope.searchtext,
             page: $scope.selectthispage,
-            perpage: $scope.perpage,
-            showImages: $scope.showImages
+            perpage: $scope.perpage
+            // showImages: $scope.showImages
         }).success(function(data) {
+
+            // console.log($scope.list, 'Fetched product list:', data);
+
             $scope.list = data.list || [];
             $scope.pageall = data.pageall || 0;
             $scope.numall = data.numall || 0;
 
             // Initialize per-row showImage flags
             $scope.list.forEach(function(x) {
-                x.showImage = false;
+                //  x.showImage = false;
             });
 
             // Build pagination array for dropdown
@@ -1400,7 +1416,7 @@ app.controller('Index', function($scope, $http, $location) {
                 });
             }
         }).error(function(err) {
-            console.error("Failed to fetch product list:", err);
+            // console.error("Failed to fetch product list:", err);
             $scope.list = [];
             $scope.pageall = 0;
             $scope.numall = 0;
@@ -1408,7 +1424,7 @@ app.controller('Index', function($scope, $http, $location) {
         });
     };
 
-    $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage, $scope.showAllImages);
+    $scope.getlist($scope.searchtext, $scope.selectthispage, $scope.perpage);
 
 
     // ===============================================================
@@ -1466,8 +1482,8 @@ app.controller('Index', function($scope, $http, $location) {
 
                 },
                 error: function(data) {
-                    console.log("error");
-                    console.log(data);
+                    // console.log("error");
+                    // console.log(data);
                 }
 
             });
@@ -1481,9 +1497,9 @@ app.controller('Index', function($scope, $http, $location) {
         $("#product_id").val(x.product_id);
         $("#product_code").val(x.product_code);
         $("#product_name").val(x.product_name);
-        $("#product_date_end2").val(x.product_date_end);
+        // $("#product_date_end2").val(x.product_date_end);
         $("#product_des").val(x.product_des);
-        $("#product_image2").val(x.product_image);
+        //$("#product_image2").val(x.product_image);
         $("#product_price").val(x.product_price);
         $("#product_wholesale_price").val(x.product_wholesale_price);
         $("#product_price3").val(x.product_price3);
@@ -1500,7 +1516,7 @@ app.controller('Index', function($scope, $http, $location) {
         $("#is_course").val(x.is_course);
         $("#product_weight").val(x.product_weight);
 
-        $scope.product_image = x.product_image;
+        //$scope.product_image = x.product_image;
 
 
     };
@@ -1573,8 +1589,8 @@ app.controller('Index', function($scope, $http, $location) {
 
                 },
                 error: function(data) {
-                    console.log("error");
-                    console.log(data);
+                    // console.log("error");
+                    // console.log(data);
                 }
             });
         }));
@@ -1600,7 +1616,7 @@ app.controller('Index', function($scope, $http, $location) {
 
 
 
-
+    // original code ========================
 
     $("form#formexcel").submit(function() {
         $scope.uploadexcel = '1';
@@ -1619,12 +1635,49 @@ app.controller('Index', function($scope, $http, $location) {
             }
         });
     });
+    // original code ========================
+
+    // updated code with detailed logging ========================
+
+    // $("form#formexcel").submit(function(e) {
+    //     e.preventDefault(); // prevent normal form submit
+    //     console.log("🟢 Form submit triggered.");
+
+    //     $scope.uploadexcel = '1';
+    //     console.log("uploadexcel flag set:", $scope.uploadexcel);
+
+    //     var formData = new FormData($(this)[0]);
+    //     console.log("FormData created:", formData);
+
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "Productlist/uploadexcel",
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         beforeSend: function() {
+    //             console.log("🚀 Sending AJAX request to Productlist/uploadexcel ...");
+    //         },
+    //         success: function(response) {
+    //             console.log("✅ AJAX success. Response:", response);
+    //             toastr.success('<?=$lang_success?>');
+    //             $('#Modalexcel').modal('hide');
+    //             $scope.uploadexcel = '0';
+    //             console.log("uploadexcel flag reset:", $scope.uploadexcel);
+    //             $scope.getlist('', '1');
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error("❌ AJAX error:", status, error);
+    //             console.log("Response text:", xhr.responseText);
+    //         },
+    //         complete: function() {
+    //             console.log("🔄 AJAX request completed.");
+    //         }
+    //     });
+    // });
 
 
-
-
-
-
+    // updated code with detailed logging ========================
 
     $scope.Updatematmodal = function(x) {
         $('#updatematmodal').modal('show');

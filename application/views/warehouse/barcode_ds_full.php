@@ -342,45 +342,10 @@ echo '<br /><b style="font-size: {{sizepname}}px;">'.$value["product_code2"].'</
     <div class="col-md-3" style="padding-left: 0px;overflow-y: auto;height:100%;width:300px;overflow-x: hidden;">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
 
 
-
-
-
-
-
-
-
-
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <!-- Modal -->

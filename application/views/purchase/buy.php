@@ -261,11 +261,11 @@
 
 
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <button class="btn btn-danger" ng-click="Openproducttable()"><span class="glyphicon glyphicon-cog"
                             aria-hidden="true">
                         </span> <?php echo $lang_pcb_4_2;?></button>
-                </div>
+                </div> -->
 
 
 

@@ -74,24 +74,44 @@ echo $this->store_user_owner_model->Getvendor();
 
 
 
-	function Edit()
-    {
+// 	function Edit()
+//     {
 
-$data = json_decode(file_get_contents("php://input"),true);
-if(!isset($data)){
-exit();
+// $data = json_decode(file_get_contents("php://input"),true);
+// if(!isset($data)){
+// exit();
+// }
+
+// if($data['user_password']!=''){
+// $md5password =  $data['user_password'].$this->c2m_key;
+// $data['user_password'] = md5($md5password);
+// }else{
+// unset($data['user_password']);
+// }
+
+// $success = $this->store_user_owner_model->Edit($data);
+
+// }
+
+
+function Edit()
+{
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!$data) {
+        exit();
+    }
+
+    // Only process password if it's included in the input
+    if (isset($data['user_password']) && $data['user_password'] !== '') {
+        $md5password = $data['user_password'] . $this->c2m_key;
+        $data['user_password'] = md5($md5password);
+    } else {
+        unset($data['user_password']); // optional, but keeps it clean
+    }
+
+    $success = $this->store_user_owner_model->Edit($data);
 }
 
-if($data['user_password']!=''){
-$md5password =  $data['user_password'].$this->c2m_key;
-$data['user_password'] = md5($md5password);
-}else{
-unset($data['user_password']);
-}
-
-$success = $this->store_user_owner_model->Edit($data);
-
-}
 
 
 function Get()

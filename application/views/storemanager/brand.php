@@ -191,7 +191,7 @@
                         <td>{{x.branch_address}}</td>
                         <td>{{x.branch_tel}}</td>
                         <td><button ng-if="x.branch_id!='1'" class="btn btn-xs btn-warning"
-                                ng-click="Editebranch(x)">แก้ไข</button></td>
+                                ng-click="Editebranch(x)">ແກ້ໄຂ</button></td>
 
 
                     </tr>

@@ -512,7 +512,7 @@ else {
                                 <tbody>
 
                                     <tr ng-repeat="x in listsale" style="background-color:#eee;font-size:18px;">
-
+                                        <span>ຈຳນວນ</span>
                                         <td style="text-align:left;">
 
                                             <?php if(!isset($arr) || $arr[23]->status==true){?>
@@ -4024,7 +4024,10 @@ if($_SESSION['open_number_for_cus']=='1'){
                             <div class="modal-body">
                                 <center>
                                     <h1 style="color:green;"><b>
-                                            <span ng-if="popup_pricenum=='1'"><?php echo $lang_sp_103;?></span>
+                                            <span ng-if="popup_pricenum=='1'"><?php echo $lang_sp_103;?><p
+                                                    style="color:red;">
+                                                    ຈະຖືກປ່ຽນເປັນລາຄາ</p></span>
+
                                             <span ng-if="popup_pricenum=='3'"><?php echo $lang_sp_104;?></span>
                                         </b></h1>
                                     <span ng-if="popup_pricenum=='3'"
