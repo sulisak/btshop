@@ -205,6 +205,13 @@ $saleallprice = $data['sumsale_price']-$data['discount_last'];
 $text = $_SESSION['owner_name']."\nຍອດຂາຍ: ".number_format($saleallprice)."\nເລກບິນ: ".$header_code."\nໂດຍ: ".$_SESSION['name']."\nເວລາ " .date('H:i',time());
 $this->Line_notify($text);
 }
+
+
+
+
+
+
+
 //Line notify
 //Line notify stock add new -----------------------
  
@@ -339,65 +346,42 @@ $this->session->set_userdata($newdata);
 
 
 
-function Line_stocknoti()
-      {
-	$data = json_decode(file_get_contents("php://input"),true);
-if(!isset($data)){
-exit();
-}
+// function Line_stocknoti()
+//       {
+// 	$data = json_decode(file_get_contents("php://input"),true);
+// if(!isset($data)){
+// exit();
+// }
 
-for($i=1;$i<=count($data['listsale']) ;$i++){
-	if($data['listsale'][$i-1]['product_id']!='' && $data['listsale'][$i-1]['product_sale_num']!='0'){
+// for($i=1;$i<=count($data['listsale']) ;$i++){
+// 	if($data['listsale'][$i-1]['product_id']!='' && $data['listsale'][$i-1]['product_sale_num']!='0'){
 
-$stock_less = $this->salepage_model->Line_stocknoti($data['listsale'][$i-1]);
-//Line notify
-if($stock_less !=''){
-if($_SESSION['line_stocknoti']=='1'){
-	if($stock_less > 0){ $omgtext = 'ສະຕັອກເຫຼືອນ້ອຍ';}else{$omgtext = 'ສະຕັອກໝົດ';}
-$text = $_SESSION['owner_name']."\n++".$omgtext."++\n".$data['listsale'][$i-1]['product_name']."\nເຫຼືອ: ".$stock_less."\nເວລາ " .date('H:i',time());
-$this->Line_notify($text);
-}
+// $stock_less = $this->salepage_model->Line_stocknoti($data['listsale'][$i-1]);
+// //Line notify
+// if($stock_less !=''){
+// if($_SESSION['line_stocknoti']=='1'){
+// 	if($stock_less > 0){ $omgtext = 'ສະຕັອກເຫຼືອນ້ອຍ';}else{$omgtext = 'ສະຕັອກໝົດ';}
+// $text = $_SESSION['owner_name']."\n++".$omgtext."++\n".$data['listsale'][$i-1]['product_name']."\nເຫຼືອ: ".$stock_less."\nເວລາ " .date('H:i',time());
+// $this->Line_notify($text);
+// }
 
-}
-//Line notify
-
-
-  $getrelationlist = $this->salepage_model->Getrelationlist($data['listsale'][$i-1]['product_id']);
-
-  //print_r($getrelationlist);
-  foreach ($getrelationlist as $key => $value) {
-  //$this->salepage_model->Updateproductdeletestock_relation($header_code,$value['product_id_relation'],$value['product_name_relation'],($value['product_num_relation']*$data['listsale'][$i-1]['product_sale_num']),$data['listsale'][$i-1]['product_id'],$value['product_type_relation']);
-
-  }
+// }
+// //Line notify
 
 
+//   $getrelationlist = $this->salepage_model->Getrelationlist($data['listsale'][$i-1]['product_id']);
+
+//   //print_r($getrelationlist);
+//   foreach ($getrelationlist as $key => $value) {
+//   //$this->salepage_model->Updateproductdeletestock_relation($header_code,$value['product_id_relation'],$value['product_name_relation'],($value['product_num_relation']*$data['listsale'][$i-1]['product_sale_num']),$data['listsale'][$i-1]['product_id'],$value['product_type_relation']);
+
+//   }
 
 
+// }
 
-
-
-
-
-}
-
-}
-
-	
-		  
-	  }
-
-
-
-
-
-
-
-
-
-
-
-
-
+// }
+//  }
 
 
 

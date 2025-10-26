@@ -143,24 +143,197 @@ return $encode_data;
 		
 
 
+// original code =======================
 
+// public function Getone($data)
+//         {
+
+// $query = $this->db->query('SELECT sd.*, from_unixtime(sd.adddate,"%d-%m-%Y %H:%i:%s") as adddate,
+// wl.product_weight*sd.product_sale_num as product_weight
+//     FROM sale_list_datail as sd
+// 	LEFT JOIN wh_product_list as wl on wl.product_id=sd.product_id
+
+//     WHERE sd.owner_id="'.$_SESSION['owner_id'].'" AND sd.sale_runno="'.$data['sale_runno'].'"
+//     ORDER BY sd.ID ASC');
+// $encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
+// return $encode_data;
+
+
+
+//         }
+// original code =======================
+
+// new update discord notification (work)=======================
+// public function Getone($data)
+// {
+//     $sql = '
+//         SELECT 
+//             sd.*, 
+//            from_unixtime(sd.adddate,"%d-%m-%Y %H:%i:%s") as adddate,
+//             wl.product_name,
+//             wl.product_price,
+//             (wl.product_weight * sd.product_sale_num) AS product_weight
+//         FROM sale_list_datail AS sd
+//         LEFT JOIN wh_product_list AS wl ON wl.product_id = sd.product_id
+//         WHERE sd.owner_id="'.$_SESSION['owner_id'].'" AND sd.sale_runno="'.$data['sale_runno'].'"
+//   ORDER BY sd.ID ASC
+//     ';
+//     $query = $this->db->query($sql, [$_SESSION["owner_id"], $data["sale_runno"]]);
+//     $products_for_discord = $query->result();
+//    // --- Prepare Discord message ---
+//     $sale_runno = $data['sale_runno'];
+//     $owner_name = $_SESSION['owner_name'];
+//     $saledate = date('d-m-Y H:i:s');
+
+//     $description = "🧾 **Sale Run No:** `$sale_runno`\n📅 **Sale Date:** $saledate\n\n";
+
+//     if (!empty($products_for_discord)) {
+//         foreach ($products_for_discord as $item) {
+//             $description .= "🔹 Product ID: **{$item->product_id}**\n";
+//             $description .= "🔹 Product Name: **{$item->product_name}**\n";
+//             $description .= "   • Qty Sold: {$item->product_sale_num}\n";
+//             $description .= "   • Price: {$item->product_price}\n";
+//             $description .= "   • Time: {$item->adddate}\n";
+//             $description .= "-------------------------\n";
+//         }
+//     } else {
+//         $description .= "❌ No sale details found for this transaction.";
+//     }
+
+//     // --- Send Discord alert ---
+//     $webhookurl = "https://discord.com/api/webhooks/1418977256730132480/VLTv4L2hmO2e45AG-rIR3MOPineXNY5fcDMTkjBVzQSnkGSb0X6Z6NX2efOM6aqoaMaP";
+//     $message = [
+//         "username" => $owner_name,
+//         "content"  => "🟢 New Sale Notification",
+//         "embeds"   => [[
+//             "title"       => "Sale Summary",
+//             "description" => $description,
+//             "color"       => hexdec("00FF00")
+//         ]]
+//     ];
+
+//     $ch = curl_init($webhookurl);
+//     curl_setopt_array($ch, [
+//         CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+//         CURLOPT_POST => 1,
+//         CURLOPT_POSTFIELDS => json_encode($message, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_SSL_VERIFYPEER => false,
+//         CURLOPT_SSL_VERIFYHOST => false
+//     ]);
+//     curl_exec($ch);
+//     curl_close($ch);
+
+//     // --- Return JSON to Angular ---
+//     return json_encode($products_for_discord, JSON_UNESCAPED_UNICODE);
+
+    
+// }
+
+// end new update discord notification =======================
+
+
+// test telegram notification (work)=======================
 
 public function Getone($data)
-        {
+{
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
-$query = $this->db->query('SELECT sd.*, from_unixtime(sd.adddate,"%d-%m-%Y %H:%i:%s") as adddate,
-wl.product_weight*sd.product_sale_num as product_weight
-    FROM sale_list_datail as sd
-	LEFT JOIN wh_product_list as wl on wl.product_id=sd.product_id
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-    WHERE sd.owner_id="'.$_SESSION['owner_id'].'" AND sd.sale_runno="'.$data['sale_runno'].'"
-    ORDER BY sd.ID ASC');
-$encode_data = json_encode($query->result(),JSON_UNESCAPED_UNICODE );
-return $encode_data;
+    if (!isset($_SESSION['owner_id'])) {
+        return json_encode(['error' => 'owner_id missing in session'], JSON_UNESCAPED_UNICODE);
+    }
 
+    if (empty($data['sale_runno'])) {
+        return json_encode(['error' => 'sale_runno missing'], JSON_UNESCAPED_UNICODE);
+    }
+
+    $owner_id = $_SESSION['owner_id'];
+    $sale_runno = $data['sale_runno'];
+
+    // --- Fetch sale data ---
+    $sql = '
+        SELECT 
+            sd.*,
+            FROM_UNIXTIME(sd.adddate,"%d-%m-%Y %H:%i:%s") AS adddate,
+            wl.product_name,
+            wl.product_price,
+            (wl.product_weight * sd.product_sale_num) AS product_weight,
+            sh.sumsale_price as sumsale_price
+        FROM sale_list_datail AS sd 
+        left JOIN sale_list_header AS sh ON sh.sale_runno = sd.sale_runno AND sh.owner_id = sd.owner_id
+        LEFT JOIN wh_product_list AS wl ON wl.product_id = sd.product_id
+        WHERE sd.owner_id = ? AND sd.sale_runno = ?
+        ORDER BY sd.ID ASC
+    ';
+    $query = $this->db->query($sql, [$owner_id, $sale_runno]);
+    $products = $query->result();
+
+    // --- Build Telegram message ---
+    function escapeTelegramHTML($text) {
+        return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $text);
+    }
+
+    $saledate = date('d-m-Y H:i:s');
+    $message = "🧾 <b>Sale Run No:</b> " . escapeTelegramHTML($sale_runno) . "\n";
+    $message .= "📅 <b>Sale Date:</b> " . $saledate . "\n\n";
+
+    if (!empty($products)) {
+        foreach ($products as $item) {
+            $product_name = escapeTelegramHTML($item->product_name);
+            $message .= "🔹 <b>{$product_name}</b> (ID: {$item->product_id})\n";
+            $message .= "• Qty: {$item->product_sale_num}\n";
+            $message .= "• Price: {$item->product_price}\n";
+            $message .= "• Total Weight: " . number_format($item->product_weight, 2) . " kg\n";
+            $message .= "• Total Price: " . number_format($item->sumsale_price, 2) . " KIP\n";
+            $message .= "----------------------\n";
         }
+    } else {
+        $message .= "❌ No sale details found for this transaction.";
+    }
 
+    error_log("Telegram message: " . $message);
 
+    // --- Send Telegram ---
+    $bot_token = "8238483008:AAEjbdc0OZAIS9TmiN1Vh_gQ916XP9DBaU8";
+    $chat_id = "6725507294";
+
+    $url = "https://api.telegram.org/bot$bot_token/sendMessage";
+    $data_post = [
+        'chat_id' => $chat_id,
+        'text' => $message,
+        'parse_mode' => 'HTML'
+    ];
+
+    $ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL => $url,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => http_build_query($data_post),
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_SSL_VERIFYPEER => false, // <--- disable SSL check
+    CURLOPT_SSL_VERIFYHOST => false  // <--- disable SSL host check
+]);
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        error_log('Telegram cURL error: ' . curl_error($ch));
+    } else {
+        error_log('Telegram response: ' . $response);
+    }
+
+    curl_close($ch);
+
+    // --- Return products ---
+    return json_encode($products, JSON_UNESCAPED_UNICODE);
+}
+
+// end test telegram notification work ========================
 
         public function Getonequotation($data)
                 {

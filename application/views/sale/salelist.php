@@ -1219,6 +1219,7 @@ app.controller('Index', function($scope, $http, $location) {
             $scope.money_changeto_customer = x.money_changeto_customer;
             $scope.adddate = x.adddate;
             $scope.discount_last2 = x.discount_last;
+
         });
 
     };

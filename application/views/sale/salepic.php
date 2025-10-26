@@ -7193,15 +7193,18 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
 
                                                 //Line notify
                                                 <?php 
-// if($_SESSION['line_stocknoti']=='1')
-{ ?>
-                                                //  $http.post("Salepage/line_stocknoti",{
-                                                // listsale:$scope.listsale
-                                                // }).success(function(data){
+                                                // if($_SESSION['line_stocknoti']=='1')
+                                                    { ?>
+                                                // $http.post("Salepage/Discord_stocknoti", {
+                                                //     listsale: $scope.listsale
+                                                // }).success(function(data) {
 
-                                                //         });
+                                                // });
                                                 <?php } ?>
                                                 //Line notify
+
+
+
 
 
                                                 $scope.morepaykey = '0';
