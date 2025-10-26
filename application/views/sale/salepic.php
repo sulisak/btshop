@@ -7162,136 +7162,93 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
                                             $('#money_from_customer').prop('disabled', true);
                                             $('#money_from_customer2').prop('disabled', true);
                                             $http.post("Salepage/Savesale", {
-                                                listsale: $scope.listsale,
-                                                cus_name: $scope.customer_name,
-                                                cus_id: $scope.customer_id,
-                                                cus_address_all: $scope.cus_address_all,
-                                                sumsale_discount: $scope.Sumsalediscount(),
-                                                sumsale_num: $scope.Sumsalenum(),
-                                                vat: $scope.vatnumber,
-                                                product_score_all: $scope.Sumproduct_score(),
-                                                sumsale_price: $scope.Sumsaleprice(),
-                                                money_from_customer: $scope.money_from_customer,
-                                                money_changeto_customer: $scope
-                                                    .money_from_customer - ($scope
-                                                        .Sumsalepricevat() - $scope.discount_last),
-                                                sale_type: $scope.sale_type,
-                                                pay_type: $scope.pay_type,
-                                                pay_type_list: $scope.pay_type_list,
-                                                morepaykey: $scope.morepaykey,
-                                                saleremark: $scope.saleremark,
-                                                round_money: $scope.round_money,
-                                                round_money_is: $scope.round_money_is,
-                                                showremarkonslip: $scope.showremarkonslip,
-                                                reserv: $scope.reserv,
-                                                saledate: $scope.saledate,
-                                                discount_last: $scope.discount_last,
-                                                shift_id: '<?php if(isset($_SESSION['shift_id'])){ echo $_SESSION['shift_id']; }?>'
-                                            }).success(function(data) {
-                                                //toastr.success('<?=$lang_success?>');
-
-
-                                                //Line notify
-                                                <?php 
-                                                // if($_SESSION['line_stocknoti']=='1')
-                                                    { ?>
-                                                // $http.post("Salepage/Discord_stocknoti", {
-                                                //     listsale: $scope.listsale
-                                                // }).success(function(data) {
-
-                                                // });
-                                                <?php } ?>
-                                                //Line notify
+                                                    listsale: $scope.listsale,
+                                                    cus_name: $scope.customer_name,
+                                                    cus_id: $scope.customer_id,
+                                                    cus_address_all: $scope.cus_address_all,
+                                                    sumsale_discount: $scope.Sumsalediscount(),
+                                                    sumsale_num: $scope.Sumsalenum(),
+                                                    vat: $scope.vatnumber,
+                                                    product_score_all: $scope.Sumproduct_score(),
+                                                    sumsale_price: $scope.Sumsaleprice(),
+                                                    money_from_customer: $scope.money_from_customer,
+                                                    money_changeto_customer: $scope
+                                                        .money_from_customer - ($scope
+                                                            .Sumsalepricevat() - $scope.discount_last),
+                                                    sale_type: $scope.sale_type,
+                                                    pay_type: $scope.pay_type,
+                                                    pay_type_list: $scope.pay_type_list,
+                                                    morepaykey: $scope.morepaykey,
+                                                    saleremark: $scope.saleremark,
+                                                    round_money: $scope.round_money,
+                                                    round_money_is: $scope.round_money_is,
+                                                    showremarkonslip: $scope.showremarkonslip,
+                                                    reserv: $scope.reserv,
+                                                    saledate: $scope.saledate,
+                                                    discount_last: $scope.discount_last,
+                                                    shift_id: '<?php if(isset($_SESSION['shift_id'])){ echo $_SESSION['shift_id']; }?>'
+                                                }).then(function(response) {
+                                                    // Telegram alert is already sent inside Savesale()
+                                                    console.log("Telegram alert sent, data:", response
+                                                        .data);
 
 
 
+                                                    // Reset UI elements
+                                                    $scope.morepaykey = '0';
+                                                    $('#morepay').modal('hide');
+                                                    $scope.saleremark = '';
 
+                                                    if ($scope.pay_type == '1' || $scope.pay_type ==
+                                                        '4') {
+                                                        $.ajax({
+                                                            url: '<?php echo $base_url_local;?>/printer/example/interface/lan.php',
+                                                            data: {
+                                                                printer_ul: "1",
+                                                                printer_name: "XP-58",
+                                                            },
+                                                            type: 'post',
+                                                            success: function(response) {}
+                                                        });
+                                                    }
 
-                                                $scope.morepaykey = '0';
-                                                $('#morepay').modal('hide');
-                                                $scope.saleremark = '';
+                                                    $('#Opengetmoneymodal').modal('hide');
+                                                    toastr.success('<?=$lang_savingsuccess?>');
 
-                                                if ($scope.pay_type == '1' || $scope.pay_type ==
-                                                    '4') {
+                                                    $scope.changemoney = $scope.money_from_customer - (
+                                                        $scope.Sumsalepricevat() - $scope
+                                                        .discount_last);
 
-                                                    $.ajax({
-                                                        url: '<?php echo $base_url_local;?>/printer/example/interface/lan.php',
-                                                        data: {
-                                                            printer_ul: "1",
-                                                            printer_name: "XP-58",
-
-                                                        },
-                                                        type: 'post',
-                                                        success: function(response) {
-
-                                                        }
+                                                    $('#savesalemorepay').prop('disabled', false);
+                                                    $('#Openchangemoney').modal({
+                                                        backdrop: "static",
+                                                        keyboard: false
                                                     });
+                                                    $('#savesale').prop('disabled', false);
+                                                    $('#savesale2').prop('disabled', false);
+                                                    $('#money_from_customer').prop('disabled', false);
+                                                    $('#money_from_customer2').prop('disabled', false);
 
-                                                }
+                                                    $scope.Refresh();
 
+                                                    if ($scope.print_preview == 0) {
+                                                        $scope.getlist();
+                                                        $scope.getproductlist();
+                                                    } else {
+                                                        $scope.getlist('', '', '', 'printmini');
+                                                    }
 
-                                                $scope.saledate = '';
+                                                    $scope.listsale = [];
+                                                    $scope.money_from_customer = '';
+                                                    $scope.is_enter = true;
 
-
-
-                                                $('#Opengetmoneymodal').modal('hide');
-
-                                                toastr.success('<?=$lang_savingsuccess?>');
-
-                                                $scope.changemoney = $scope.money_from_customer - (
-                                                    $scope.Sumsalepricevat() - $scope
-                                                    .discount_last);
-
-                                                $('#savesalemorepay').prop('disabled', false);
-                                                $('#Openchangemoney').modal({
-                                                    backdrop: "static",
-                                                    keyboard: false
+                                                })
+                                                .catch(function(error) {
+                                                    console.error("Error saving sale:", error);
                                                 });
-                                                $('#savesale').prop('disabled', false);
-                                                $('#savesale2').prop('disabled', false);
-                                                $('#money_from_customer').prop('disabled', false);
-                                                $('#money_from_customer2').prop('disabled', false);
-
-                                                $scope.Refresh();
-
-                                                if ($scope.print_preview == 0) {
-                                                    $scope.getlist();
-                                                    $scope.getproductlist();
-                                                } else {
-                                                    $scope.getlist('', '', '', 'printmini');
-                                                }
-
-                                                $scope.listsale = [];
-                                                $scope.money_from_customer = '';
-
-
-
-
-
-
-                                                $scope.is_enter = true;
-
-
-
-
-                                            });
                                         }
 
                                     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                                     $scope.Savequotation = function(changemoney, sumsalepricevat,

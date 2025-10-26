@@ -198,13 +198,14 @@ $runnoplus = (int)$runnonow + 1;
 $header_code = str_pad($runnoplus, $_SESSION['runno_digit'], "0", STR_PAD_LEFT);
 
 
+
 //Line notify
-if($_SESSION['line_allbill']=='1'){
-     console.log('line all bill',$_SESSION['line_allbill']);
-$saleallprice = $data['sumsale_price']-$data['discount_last'];
-$text = $_SESSION['owner_name']."\nຍອດຂາຍ: ".number_format($saleallprice)."\nເລກບິນ: ".$header_code."\nໂດຍ: ".$_SESSION['name']."\nເວລາ " .date('H:i',time());
-$this->Line_notify($text);
-}
+// if($_SESSION['line_allbill']=='1'){
+//      console.log('line all bill',$_SESSION['line_allbill']);
+// $saleallprice = $data['sumsale_price']-$data['discount_last'];
+// $text = $_SESSION['owner_name']."\nຍອດຂາຍ: ".number_format($saleallprice)."\nເລກບິນ: ".$header_code."\nໂດຍ: ".$_SESSION['name']."\nເວລາ " .date('H:i',time());
+// $this->Line_notify($text);
+// }
 
 
 
@@ -302,6 +303,9 @@ $data['listsale'][$i-1]['ID'] = null;
 
 $this->salepage_model->Adddetail($data['listsale'][$i-1]);
 
+
+
+
 $this->salepage_model->Updateproductdeletestock($data['listsale'][$i-1]);
 
   $getrelationlist = $this->salepage_model->Getrelationlist($data['listsale'][$i-1]['product_id']);
@@ -312,20 +316,17 @@ $this->salepage_model->Updateproductdeletestock($data['listsale'][$i-1]);
 
   }
 
-
-
-
-
-
-
-
-
 }
 
 }
 
 
+// add feature alert telegram =======
+$data['sale_runno'] = $header_code;
+// --- Send Telegram alert ---
+ $alertsale = $this->salepage_model->Alerttelegram($data);
 
+// add feature alert telegram =======
 
 
 
@@ -464,8 +465,42 @@ $data['listsale'][$i-1]['ID'] = null;
   	}
 
 
+// function Line_stocknoti()
+//       {
+// 	$data = json_decode(file_get_contents("php://input"),true);
+// if(!isset($data)){
+// exit();
+//               }
+
+// for($i=1;$i<=count($data['listsale']) ;$i++){
+// 	if($data['listsale'][$i-1]['product_id']!='' && $data['listsale'][$i-1]['product_sale_num']!='0'){
+
+// $stock_less = $this->salepage_model->Line_stocknoti($data['listsale'][$i-1]);
+
+// if($stock_less !=''){
+// if($_SESSION['line_stocknoti']=='1'){
+// 	if($stock_less > 0){ $omgtext = 'ສະຕັອກເຫຼືອນ້ອຍ';}else{$omgtext = 'ສະຕັອກໝົດ';}
+// $text = $_SESSION['owner_name']."\n++".$omgtext."++\n".$data['listsale'][$i-1]['product_name']."\nເຫຼືອ: ".$stock_less."\nເວລາ " .date('H:i',time());
+// $this->Line_notify($text);
+// }
+
+// }
+
+// }
+//       }
+//       }
 
 
+// function Alerttelegram()
+//       {
+// 	$data = json_decode(file_get_contents("php://input"),true);
+// if(!isset($data)){
+// exit();
+//               }
+
+// $alertsale = $this->salepage_model->Alerttelegram($data);
+
+//       }
 
 
-	}
+}
