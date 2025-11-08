@@ -1825,8 +1825,8 @@ pregetlistcus()" class="form-control" placeholder="<?php echo $lang_sp_42;?>"
                                 <center>
 
 
-                                    <span ng-if="pay_type!='4'" style="font-size: 35px;font-weight: bold;">
-                                        <span style="font-size: 35px;font-weight: bold;">
+                                    <span ng-if="pay_type!='4'" style="font-size: 20px;font-weight: bold;">
+                                        <span style="font-size: 20px;font-weight: bold;">
                                             <?php echo $_SESSION['header_a4'];?>
                                         </span>
                                     </span>
@@ -1876,7 +1876,7 @@ if($_SESSION['logoonslip']=='0'){
                                     <thead>
                                         <tr class="trheader" style="font-size:12px;">
                                             <th style="width:10px;"></th>
-                                            <!-- <th ><?=$lang_barcode?></th> -->
+                                            <th><?=$lang_barcode?></th>
                                             <th><?=$lang_productname?></th>
                                             <th style="width:300px;"><?=$lang_detail?></th>
 
@@ -1890,7 +1890,9 @@ if($_SESSION['logoonslip']=='0'){
                                     <tbody>
                                         <tr ng-repeat="x in listone">
                                             <td align="center" style="width:10px;">{{$index+1}}</td>
-
+                                            <td style="width:150px;">
+                                                {{x.product_code}}
+                                            </td>
                                             <td style="width:500px;">
                                                 {{x.product_name}}
                                             </td>
