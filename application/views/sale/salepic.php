@@ -1827,20 +1827,20 @@ pregetlistcus()" class="form-control" placeholder="<?php echo $lang_sp_42;?>"
                                 <center>
 
 
-                                    <span ng-if="pay_type!='4'" style="font-size: 35px;font-weight: bold;">
-                                        <span style="font-size: 35px;font-weight: bold;">
+                                    <span ng-if="pay_type!='4'" style="font-size: 20px;font-weight: bold;">
+                                        <span style="font-size: 20px;font-weight: bold;">
                                             <?php echo $_SESSION['header_a4'];?>
                                         </span>
                                     </span>
 
-                                    <span ng-if="pay_type=='4'" style="font-size: 35px;font-weight: bold;">
+                                    <span ng-if="pay_type=='4'" style="font-size: 20px;font-weight: bold;">
                                         <?php echo $lang_sp_58;?></span>
 
                                     <br />
 
                                     <?php
-if($_SESSION['logoonslip']=='0'){
-?>
+                                                if($_SESSION['logoonslip']=='0'){
+                                                ?>
                                     <img src="<?=$base_url?>/<?=$_SESSION['owner_logo']?>" width="100px">
                                     <br />
                                     <?php } ?>
@@ -1878,7 +1878,7 @@ if($_SESSION['logoonslip']=='0'){
                                     <thead>
                                         <tr class="trheader" style="font-size:12px;">
                                             <th style="width:10px;"></th>
-                                            <!-- <th ><?=$lang_barcode?></th> -->
+                                            <th><?=$lang_barcode?></th>
                                             <th><?=$lang_productname?></th>
                                             <th style="width:300px;"><?=$lang_detail?></th>
 
@@ -1893,6 +1893,9 @@ if($_SESSION['logoonslip']=='0'){
                                         <tr ng-repeat="x in listone">
                                             <td align="center" style="width:10px;">{{$index+1}}</td>
 
+                                            <td style="width:150px;">
+                                                {{x.product_code}}
+                                            </td>
                                             <td style="width:500px;">
                                                 {{x.product_name}}
                                             </td>
@@ -2054,10 +2057,11 @@ if($_SESSION['open_vat_on_slip']=='1'){
 
 
                                 <?php
-if($_SESSION['exchangerateonslip']=='1'){
-?>
+                                    // if($_SESSION['exchangerateonslip']=='1')
+                                        // {
+                                    ?>
 
-                                <table class="table table-bordered">
+                                <!-- <table class="table table-bordered">
 
                                     <tr ng-repeat="x in exchangeratelist">
                                         <td style="font-weight: bold;" align="right">{{x.title_name}}</td>
@@ -2065,8 +2069,10 @@ if($_SESSION['exchangerateonslip']=='1'){
                                             {{(sumsalevat-discount_last2)/x.rate | number}}</td>
                                     </tr>
 
-                                </table>
-                                <?php } ?>
+                                </table> -->
+                                <?php 
+                                //  } 
+                             ?>
 
 
 
@@ -2266,7 +2272,7 @@ if($_SESSION['exchangerateonslip']=='1'){
 
 
                                     <!-- <span ng-if="pay_type!='4'" style="font-size: 35px;font-weight: bold;">
-<?=$lang_billall?>
+                                            <?=$lang_billall?>
 </span>
 
 <span ng-if="pay_type=='4'" style="font-size: 35px;font-weight: bold;">ใบค้างชำระ</span> -->
@@ -2277,8 +2283,8 @@ if($_SESSION['exchangerateonslip']=='1'){
                                     <tr>
 
                                         <?php
-if($_SESSION['logoonslip']=='0'){
-?>
+                                if($_SESSION['logoonslip']=='0'){
+                                ?>
                                         <td width="150px">
                                             <img src="<?=$base_url?>/<?=$_SESSION['owner_logo']?>" width="100px">
                                             <!-- <br />
@@ -2315,6 +2321,7 @@ if($_SESSION['logoonslip']=='0'){
                                         <tr class="trheader" style="font-size:12px;">
                                             <th style="width:10px;"></th>
 
+                                            <th>ບາໂຄດ</th>
                                             <th><?=$lang_productname?></th>
                                             <th style="width:300px;"><?=$lang_detail?></th>
 
@@ -2330,7 +2337,10 @@ if($_SESSION['logoonslip']=='0'){
                                             <td align="center" style="width:10px;">{{$index+1}}</td>
 
                                             <td style="width:400px;">
-                                                {{x.product_name}}({{x.product_code}})
+                                                {{x.product_code}}
+                                            </td>
+                                            <td style="width:400px;">
+                                                {{x.product_name}}
                                             </td>
                                             <td style="width:300px;">{{x.product_des}}</td>
 
@@ -3346,8 +3356,8 @@ echo ''.$lang_endmoney.' ( '.number_format($_SESSION['shift_money_end_old']).' )
 
 
                                         <?php
-if($_SESSION['open_number_for_cus']=='1'){
-?>
+                                        if($_SESSION['open_number_for_cus']=='1'){
+                                        ?>
                                         <br />
                                         <center style="font-size:60px;font-weight:bold;">{{number_for_cus | number}}
 
@@ -3357,14 +3367,14 @@ if($_SESSION['open_number_for_cus']=='1'){
                                         </center>
                                         <br />
                                         <?php
-}
-?>
+                                                    }
+                                                    ?>
 
 
 
                                         <?php
-if($_SESSION['logoonslip']=='0'){
-?>
+                                        if($_SESSION['logoonslip']=='0'){
+                                        ?>
                                         <center>
                                             <table width="100%">
                                                 <tr>
@@ -3376,8 +3386,8 @@ if($_SESSION['logoonslip']=='0'){
                                             </table>
                                         </center>
                                         <?php
-}
-?>
+                                            }
+                                            ?>
 
 
 
@@ -3388,7 +3398,7 @@ if($_SESSION['logoonslip']=='0'){
                                         <?php } ?>
 
                                         <!--<br />
-		 <?=$lang_tax?>:<?php echo $_SESSION['owner_tax_number']; ?> -->
+	                                	 <?=$lang_tax?>:<?php echo $_SESSION['owner_tax_number']; ?> -->
 
 
                                         <?php if($_SESSION['showstoreaddress']=='1'){ ?>
@@ -3569,9 +3579,9 @@ if($_SESSION['owner_tax_number'] !=''){
 
 
                                     <?php
-if($_SESSION['exchangerateonslip']=='1'){
-?>
-                                    <center>
+                                    // if($_SESSION['exchangerateonslip']=='1'){
+                                    ?>
+                                    <!-- <center>
                                         ___________________________
                                     </center>
                                     <table width="100%">
@@ -3583,11 +3593,13 @@ if($_SESSION['exchangerateonslip']=='1'){
                                                 {{(sumsalevat-discount_last2)/x.rate | number}}</td>
                                         </tr>
 
-                                    </table>
+                                    </table> -->
 
 
 
-                                    <?php } ?>
+                                    <?php 
+                                // } 
+                                ?>
 
 
 
@@ -7097,7 +7109,7 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
 
 
 
-
+                                    //  savesale =========================================================================
                                     $scope.saleremark = '';
                                     $scope.showremarkonslip = '0';
                                     $scope.Savesale = function(changemoney, sumsalepricevat, discount_last) {
@@ -7250,6 +7262,7 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
 
                                     };
 
+                                    //  savesale =========================================================================
 
                                     $scope.Savequotation = function(changemoney, sumsalepricevat,
                                         discount_last) {
@@ -7272,58 +7285,88 @@ if($_SESSION['owner_vat_status']=='0' || $_SESSION['owner_vat_status']=='1'){
                                             $('#money_from_customer').prop('disabled', true);
                                             $('#money_from_customer2').prop('disabled', true);
                                             $http.post("Salepage/Savequotation", {
-                                                listsale: $scope.listsale,
-                                                cus_name: $scope.customer_name,
-                                                cus_id: $scope.customer_id,
-                                                cus_address_all: $scope.cus_address_all,
-                                                sumsale_discount: $scope.Sumsalediscount(),
-                                                sumsale_num: $scope.Sumsalenum(),
-                                                vat: $scope.vatnumber,
-                                                product_score_all: $scope.Sumproduct_score(),
-                                                sumsale_price: $scope.Sumsaleprice(),
-                                                money_from_customer: $scope.money_from_customer,
-                                                money_changeto_customer: $scope
-                                                    .money_from_customer - ($scope
-                                                        .Sumsalepricevat() - $scope.discount_last),
-                                                sale_type: $scope.sale_type,
-                                                pay_type: $scope.pay_type,
-                                                reserv: $scope.reserv,
-                                                discount_last: $scope.discount_last,
-                                                shift_id: '<?php if(isset($_SESSION['shift_id'])){ echo $_SESSION['shift_id']; }?>'
-                                            }).success(function(data) {
-                                                //toastr.success('<?=$lang_success?>');
+                                                    listsale: $scope.listsale,
+                                                    cus_name: $scope.customer_name,
+                                                    cus_id: $scope.customer_id,
+                                                    cus_address_all: $scope.cus_address_all,
+                                                    sumsale_discount: $scope.Sumsalediscount(),
+                                                    sumsale_num: $scope.Sumsalenum(),
+                                                    vat: $scope.vatnumber,
+                                                    product_score_all: $scope.Sumproduct_score(),
+                                                    sumsale_price: $scope.Sumsaleprice(),
+                                                    money_from_customer: $scope.money_from_customer,
+                                                    money_changeto_customer: $scope
+                                                        .money_from_customer - ($scope
+                                                            .Sumsalepricevat() - $scope.discount_last),
+                                                    sale_type: $scope.sale_type,
+                                                    pay_type: $scope.pay_type,
+                                                    reserv: $scope.reserv,
+                                                    discount_last: $scope.discount_last,
+                                                    shift_id: '<?php if(isset($_SESSION['shift_id'])){ echo $_SESSION['shift_id']; }?>'
+                                                })
 
-                                                $('#Opengetmoneymodal').modal('hide');
+                                                // .success(function(data) {
+                                                //     //toastr.success('<?=$lang_success?>');
 
-                                                toastr.success('<?php echo $lang_sp_130;?>');
+                                                //     $('#Opengetmoneymodal').modal('hide');
 
-                                                $scope.changemoney = $scope.money_from_customer - (
-                                                    $scope.Sumsalepricevat() - $scope
-                                                    .discount_last);
+                                                //     toastr.success('<?php echo $lang_sp_130;?>');
 
-                                                //$('#Openchangemoney').modal({backdrop: "static", keyboard: false});
-                                                $('#savequotation').prop('disabled', false);
-                                                $('#savesale2').prop('disabled', false);
-                                                $('#money_from_customer').prop('disabled', false);
-                                                $('#money_from_customer2').prop('disabled', false);
+                                                //     $scope.changemoney = $scope.money_from_customer - (
+                                                //         $scope.Sumsalepricevat() - $scope
+                                                //         .discount_last);
 
-                                                $scope.Refresh();
-                                                $scope.getlist();
+                                                //     //$('#Openchangemoney').modal({backdrop: "static", keyboard: false});
+                                                //     $('#savequotation').prop('disabled', false);
+                                                //     $('#savesale2').prop('disabled', false);
+                                                //     $('#money_from_customer').prop('disabled', false);
+                                                //     $('#money_from_customer2').prop('disabled', false);
 
-                                                $scope.listsale = [];
+                                                //     $scope.Refresh();
+                                                //     $scope.getlist();
+                                                //     console.log('quotation list...', listsale);
+
+                                                //     $scope.listsale = [];
 
 
-                                            });
+                                                // });
+                                                .then(function(response) {
+
+                                                    $('#Opengetmoneymodal').modal('hide');
+
+                                                    toastr.success('ບັນທຶກສຳເລັດ');
+
+                                                    $scope.changemoney = $scope.money_from_customer - (
+                                                        $scope.Sumsalepricevat() - $scope
+                                                        .discount_last);
+
+                                                    // Re-enable buttons
+                                                    $('#savequotation, #savesale2, #money_from_customer, #money_from_customer2')
+                                                        .prop(
+                                                            'disabled', false);
+
+                                                    // Refresh and reset
+                                                    $scope.Refresh();
+                                                    $scope.getlist();
+                                                    $scope.listsale = [];
+
+                                                })
+                                                .catch(function(error) {
+                                                    console.error("ມີບັນຫາໃນການບັນທຶກ:", error);
+                                                    if (error.data && error.data.message) {
+                                                        toastr.error(error.data.message);
+                                                    } else {
+                                                        toastr.error('ບັນທຶກບໍ່ສຳເລັດ, ກະລຸນາລອງໃໝ່');
+                                                    }
+                                                    // Re-enable buttons
+                                                    $('#savequotation, #savesale2, #money_from_customer, #money_from_customer2')
+                                                        .prop(
+                                                            'disabled', false);
+                                                });
+
                                         }
 
                                     };
-
-
-
-
-
-
-
 
 
                                     $scope.Showquotationlist = function() {

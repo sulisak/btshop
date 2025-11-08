@@ -2038,6 +2038,8 @@ $this->session->set_userdata($newdatashift);
 
 
 
+
+
 // alert telegram when sale done (work) =============================
 public function Alerttelegram($data)
 {
@@ -2067,11 +2069,12 @@ public function Alerttelegram($data)
             FROM_UNIXTIME(sd.adddate,"%d-%m-%Y %H:%i:%s") AS adddate,
             wl.product_name,
             wl.product_price,
-            (wl.product_weight * sd.product_sale_num) AS product_weight,
+            ow.owner_name AS shopname,
             sh.sumsale_price as sumsale_price
         FROM sale_list_datail AS sd 
         left JOIN sale_list_header AS sh ON sh.sale_runno = sd.sale_runno AND sh.owner_id = sd.owner_id
         LEFT JOIN wh_product_list AS wl ON wl.product_id = sd.product_id
+        LEFT JOIN owner ow on ow.owner_id=sd.owner_id
         WHERE sd.owner_id = ? AND sd.sale_runno = ?
         ORDER BY sd.ID ASC
     ';
@@ -2082,20 +2085,25 @@ public function Alerttelegram($data)
     function escapeTelegramHTML($text) {
         return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $text);
     }
-
+   
+    $shopname = !empty($products) ? $products[0]->shopname : 'Unknown Shop';
     $saledate = date('d-m-Y H:i:s');
-    $message = "🧾 <b>Sale Run No:</b> " . escapeTelegramHTML($sale_runno) . "\n";
+    
+    $message  = "🏪 <b>ຮ້ານ: " . escapeTelegramHTML($shopname) . "</b> \n";
+    $message .= "🧾 <b>Sale Run No:</b> " . escapeTelegramHTML($sale_runno) . "\n";
     $message .= "📅 <b>Sale Date:</b> " . $saledate . "\n\n";
 
     $total_sale_price = 0; // initialize total
 
 if (!empty($products)) {
     foreach ($products as $item) {
+        
+       
+          
         $product_name = escapeTelegramHTML($item->product_name);
-        $message .= "🔹 <b>{$product_name}</b> (ID: {$item->product_id})\n";
+        $message .= "🔹 <b>{$product_name}</b>\n";
         $message .= "• Qty: {$item->product_sale_num}\n";
         $message .= "• Price: {$item->product_price}\n";
-        $message .= "• Total Weight: " . number_format($item->product_weight, 2) . " kg\n";
         $message .= "----------------------\n";
 
         $total_sale_price =$item->sumsale_price; // accumulate total
@@ -2143,6 +2151,125 @@ curl_setopt_array($ch, [
 }
 
 // end alert telegram when sale done =============================
+
+
+
+// Alert telegram save quotation =====================
+public function Alerttelegram_Savequotation($data)
+{
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    if (session_status() == PHP_SESSION_NONE) session_start();
+
+    if (!isset($_SESSION['owner_id'])) {
+        return json_encode(['error' => 'owner_id missing in session'], JSON_UNESCAPED_UNICODE);
+    }
+    if (empty($data['sale_runno'])) {
+        return json_encode(['error' => 'sale_runno missing'], JSON_UNESCAPED_UNICODE);
+    }
+
+    $owner_id = $_SESSION['owner_id'];
+    $sale_runno = $data['sale_runno'];
+
+    // --- Fetch sale data ---
+    $sql = 'SELECT 
+        q.product_name,
+        q.product_sale_num,
+        q.product_price,
+        IFNULL(ow.owner_name, "Unknown Shop") AS shopname,
+        qh.sumsale_price AS sumsale_price,
+        (q.product_sale_num * q.product_price_discount) AS discount_per_item,
+        FROM_UNIXTIME(q.adddate, "%d-%m-%Y %H:%i:%s") AS adddate,
+        IFNULL(wu.product_unit_name, "") AS product_unit_name
+    FROM quotation_list_datail AS q
+    INNER JOIN quotation_list_header AS qh 
+        ON qh.sale_runno = q.sale_runno AND qh.owner_id = q.owner_id
+    LEFT JOIN owner AS ow ON ow.owner_id = q.owner_id
+    LEFT JOIN wh_product_list AS wl ON wl.product_id = q.product_id
+    LEFT JOIN wh_product_unit AS wu ON wu.product_unit_id = wl.product_unit_id
+    WHERE q.owner_id = ? AND qh.sale_runno = ?
+    ORDER BY q.product_name ASC';
+
+    $query = $this->db->query($sql, [$owner_id, $sale_runno]);
+    $products = $query->result();
+
+    // Escape HTML for Telegram
+    if (!function_exists('escapeTelegramHTML')) {
+    function escapeTelegramHTML($text) {
+        return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $text);
+    }
+}
+
+    // --- Prepare Telegram message ---
+    $shopname = !empty($products) ? ($products[0]->shopname ?: 'Unknown Shop') : 'Unknown Shop';
+    $saledate = date('d-m-Y H:i:s');
+
+    $message  = "🏪 <b>ຮ້ານ: " . escapeTelegramHTML($shopname) . "</b>\n";
+    $message .= "🧾 <b>Quo Run No:</b> " . escapeTelegramHTML($sale_runno) . "\n";
+    $message .= "📅 <b>Quo Date:</b> " . $saledate . "\n\n";
+
+    $total_sale_price = 0;
+
+    if (!empty($products)) {
+    foreach ($products as $item) {
+        $product_name = escapeTelegramHTML($item->product_name);
+        $unit_name = $item->product_unit_name ? escapeTelegramHTML($item->product_unit_name) : '';
+        $quantity = is_numeric($item->product_sale_num) ? $item->product_sale_num : 0;
+        $price = number_format($item->product_price, 2);
+        $line_total = number_format($item->product_price * $quantity, 2);
+
+        $message .= "🔹 <b>{$product_name}</b>\n";
+        $message .= "• Qty: {$quantity} {$unit_name}\n";
+        $message .= "• Price: {$price} each\n";
+        $message .= "• Total: {$line_total}\n";
+        $message .= "----------------------\n";
+
+        $total_sale_price += $item->product_price * $quantity;
+    }
+
+    $message .= "💰 <b>Total Sale Price: " . number_format($total_sale_price, 2) . "  </b> \n";
+} else {
+    $message .= "❌ No sale details found for this transaction.";
+}
+
+    error_log("Telegram message: " . $message);
+
+    // --- Send Telegram ---
+    $bot_token = "8238483008:AAEjbdc0OZAIS9TmiN1Vh_gQ916XP9DBaU8";
+    $chat_id = "6725507294";
+
+    $url = "https://api.telegram.org/bot$bot_token/sendMessage";
+    $data_post = [
+        'chat_id' => $chat_id,
+        'text' => $message,
+        'parse_mode' => 'HTML'
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($data_post),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false
+    ]);
+
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        error_log('Telegram cURL error: ' . curl_error($ch));
+    } else {
+        error_log('Telegram response: ' . $response);
+    }
+    curl_close($ch);
+
+    return json_encode($products, JSON_UNESCAPED_UNICODE);
+}
+
+
+// End alert telegram save quotation =====================
 
 
 

@@ -385,85 +385,124 @@ $this->session->set_userdata($newdata);
 //  }
 
 
+// Savequotation origin =======================================
+
+//   function Savequotation()
+//       {
+
+//   	$data = json_decode(file_get_contents("php://input"),true);
+//   if(!isset($data)){
+//   exit();
+//   }
+
+//   $numforcuslast = $this->salepage_model->Getnumforcuslast();
+//   $numforcusnow = $numforcuslast[0]['number_for_cus'];
+
+//   $numforcusplus = $numforcusnow + '1';
 
 
-  function Savequotation()
-      {
-
-  	$data = json_decode(file_get_contents("php://input"),true);
-  if(!isset($data)){
-  exit();
-  }
-
-  $numforcuslast = $this->salepage_model->Getnumforcuslast();
-  $numforcusnow = $numforcuslast[0]['number_for_cus'];
-
-  $numforcusplus = $numforcusnow + '1';
-
-
-  //$runnolast = $this->salepage_model->Getrunnolast();
+//   //$runnolast = $this->salepage_model->Getrunnolast();
 
 
 
-  $adddate = time();
-  //$header_code = 'quo'.time();
+//   $adddate = time();
+//   //$header_code = 'quo'.time();
   
-  $runnolast = $this->salepage_model->Getrunnolast_quo();
-$runnonow = $runnolast[0]['sale_runno'];
-$runnoplus = (int)$runnonow + 1;
-$header_code = str_pad($runnoplus, 5, "0", STR_PAD_LEFT);
+//   $runnolast = $this->salepage_model->Getrunnolast_quo();
+// $runnonow = $runnolast[0]['sale_runno'];
+// $runnoplus = (int)$runnonow + 1;
+// $header_code = str_pad($runnoplus, 5, "0", STR_PAD_LEFT);
 
 
 
 
 
-  for($i=1;$i<=count($data['listsale']) ;$i++){
+//   for($i=1;$i<=count($data['listsale']) ;$i++){
 
-  $data['number_for_cus'] = $numforcusplus;
+//   $data['number_for_cus'] = $numforcusplus;
 
-  $data['sale_runno'] = $header_code;
-  $data['adddate'] = $adddate;
-
-
-
-  	if($data['listsale'][$i-1]['product_id']!='' && $data['listsale'][$i-1]['product_sale_num']!='0'){
-  $data['listsale'][$i-1]['sale_runno'] = $header_code;
-  $data['listsale'][$i-1]['adddate'] = $adddate;
-
-$data['listsale'][$i-1]['ID'] = null;
-
-  if($this->salepage_model->Adddetailquotation($data['listsale'][$i-1])){
-  	//$this->salepage_model->Updateproductdeletestock($data['listsale'][$i-1]);
-
-
-    //$getrelationlist = $this->salepage_model->Getrelationlist($data['listsale'][$i-1]['product_id']);
-
-    //print_r($getrelationlist);
-    //foreach ($getrelationlist as $key => $value) {
-    //$this->salepage_model->Updateproductdeletestock_relation($value['product_id_relation'],($value['product_num_relation']*$data['listsale'][$i-1]['product_sale_num']));
-
-    //}
-
-  }
+//   $data['sale_runno'] = $header_code;
+//   $data['adddate'] = $adddate;
 
 
 
+//   	if($data['listsale'][$i-1]['product_id']!='' && $data['listsale'][$i-1]['product_sale_num']!='0'){
+//   $data['listsale'][$i-1]['sale_runno'] = $header_code;
+//   $data['listsale'][$i-1]['adddate'] = $adddate;
+
+// $data['listsale'][$i-1]['ID'] = null;
+
+//   if($this->salepage_model->Adddetailquotation($data['listsale'][$i-1])){
+//   	//$this->salepage_model->Updateproductdeletestock($data['listsale'][$i-1]);
 
 
-  if($i==1){
-  $this->salepage_model->Addheaderquotation($data);
-  //$price_value = $data['sumsale_price']-$data['discount_last'];
-  //$this->salepage_model->Addmoneychange($data['money_changeto_customer'],$data['money_from_customer'],$price_value);
-  }
+//     //$getrelationlist = $this->salepage_model->Getrelationlist($data['listsale'][$i-1]['product_id']);
 
-  }
+//     //print_r($getrelationlist);
+//     //foreach ($getrelationlist as $key => $value) {
+//     //$this->salepage_model->Updateproductdeletestock_relation($value['product_id_relation'],($value['product_num_relation']*$data['listsale'][$i-1]['product_sale_num']));
 
-  }
+//     //}
+
+//   }
 
 
 
-  	}
 
+
+//   if($i==1){
+//   $this->salepage_model->Addheaderquotation($data);
+//   //$price_value = $data['sumsale_price']-$data['discount_last'];
+//   //$this->salepage_model->Addmoneychange($data['money_changeto_customer'],$data['money_from_customer'],$price_value);
+//   }
+
+//   }
+
+//   }
+
+
+
+//   	}
+
+
+// origin -=======================================
+
+// Savequotation new update =================================================
+  function Savequotation()
+{
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!$data) exit();
+
+    $numforcuslast = $this->salepage_model->Getnumforcuslast();
+    $numforcusnow = $numforcuslast[0]['number_for_cus'];
+    $numforcusplus = (int)$numforcusnow + 1;
+
+    $adddate = time();
+    $header_code = 'quo' . time();
+
+    $data['number_for_cus'] = $numforcusplus;
+    $data['sale_runno'] = $header_code;
+    $data['adddate'] = $adddate;
+
+    // Insert product details
+    foreach ($data['listsale'] as &$item) {
+        if (empty($item['product_id']) || $item['product_sale_num'] == '0') continue;
+
+        $item['sale_runno'] = $header_code;
+        $item['adddate'] = $adddate;
+        $item['ID'] = null;
+
+        $this->salepage_model->Adddetailquotation($item);
+    }
+
+    // Insert header once
+    $this->salepage_model->Addheaderquotation($data);
+
+    // Send Telegram alert once per quotation
+    $this->salepage_model->Alerttelegram_Savequotation($data);
+}
+
+// Savequotation new update  =================================================
 
 // function Line_stocknoti()
 //       {
